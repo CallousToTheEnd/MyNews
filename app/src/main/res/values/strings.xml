@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FragmentTabHostTest</string>
+    <string name="action_settings">Settings</string>
+    <string name="tab_title_news">新闻</string>
+    <string name="tab_title_read">阅读</string>
+    <string name="tab_title_va">视听</string>
+    <string name="tab_title_topic">话题</string>
+    <string name="tab_title_pc">我</string>
+    <string name="title_Sports">体育</string>
+    <string name="title_International">国际</string>
+    <string name="title_Technology">科技</string>
+    <string name="title_Sociology">社会</string>
+    <string name="title_apple">苹果</string>
+</resources>
