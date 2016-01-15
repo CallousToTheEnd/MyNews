@@ -10,20 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/slider"
-                android:layout_width="match_parent"
-                android:layout_height="175dp"></com.daimajia.slider.library.SliderLayout>
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/RecyclerViewNewsSport"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerViewNewsSport"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
