@@ -20,9 +20,12 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.li.fragmenttabhosttest.Activity.NewsContentActivity;
 import com.example.li.fragmenttabhosttest.Adapter.NewsSportRecyclerViewAdapter;
+import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
 import com.example.li.fragmenttabhosttest.Bean.SportNewsSlideBean;
 import com.example.li.fragmenttabhosttest.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -50,6 +53,7 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
     private NewsSportRecyclerViewAdapter recyclerViewAdapter;
 
     private List<SportNewsSlideBean> slide = new ArrayList<>();
+    private List<NewsContentBean> news = new ArrayList<>();
 
     private static final int SLIDER_COUNT = 5;
 
@@ -63,6 +67,7 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
 //            }
 
             reLoadSliderView();
+            initRecyclerView();
         }
     };
 
@@ -74,8 +79,6 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
         rootView = inflater.inflate(R.layout.fragment_news_sport, null);
 
         initSliderLayout();
-
-        initRecyclerView();
 
         initSwipeRefreshLayout();
 
@@ -175,7 +178,7 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
      */
     private void initRecyclerView() {
 
-        recyclerViewAdapter = new NewsSportRecyclerViewAdapter();
+        recyclerViewAdapter = new NewsSportRecyclerViewAdapter(news);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.RecyclerViewNewsSport);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -193,7 +196,7 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
 
     }
 
-    private void initSwipeRefreshLayout () {
+    private void initSwipeRefreshLayout() {
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.newsSportSwipeRefreshLayout);
 
@@ -206,7 +209,7 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
      */
     private void loadNews() throws IOException {
 
-        String apiUrl = "http://apis.baidu.com/txapi/tiyu/tiyu?&num=10&page=1";
+        String apiUrl = "http://apis.baidu.com/txapi/world/world?&num=11&page=1";
 
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -219,7 +222,25 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
 
         if (response.isSuccessful()) {
             String json = response.body().string();
-            System.out.println(json);
+
+            if (!json.equals("")) {
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    System.out.println(jsonObject.toString());
+
+                    for (int i = 0; i < jsonObject.length() - 2; i++) {
+                        JSONObject jsonContent = jsonObject.getJSONObject(String.valueOf(i));
+                        news.add(new NewsContentBean(jsonContent.getString("title"),
+                                jsonContent.getString("picUrl"),
+                                jsonContent.getString("time"),
+                                jsonContent.getString("url")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
 
     }

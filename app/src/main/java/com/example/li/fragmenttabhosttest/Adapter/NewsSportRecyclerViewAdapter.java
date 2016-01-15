@@ -26,9 +26,10 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-    int timecount;
-    int titlecount;
 
+    public NewsSportRecyclerViewAdapter(List<NewsContentBean> Data) {
+        mDataList = Data;
+    }
 
     /**
      * 自定义实现RecyclerView的Item点击事件接口
@@ -56,20 +57,17 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
         MyViewHolder myh = (MyViewHolder) holder;
 
 
-        myh.getTvTime().setText("Time" + timecount);
-        myh.getTvTitle().setText("title" + titlecount);
+        myh.getTvTime().setText(mDataList.get(position).getTime());
+        myh.getTvTitle().setText(mDataList.get(position).getTitle());
 
         //将位置保存在itemView的Tag中，以便点击时进行获取
-        myh.itemView.setTag(position);
-
-        timecount++;
-        titlecount++;
+        myh.itemView.setTag(position +1);
 
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return mDataList.size();
     }
 
     @Override
