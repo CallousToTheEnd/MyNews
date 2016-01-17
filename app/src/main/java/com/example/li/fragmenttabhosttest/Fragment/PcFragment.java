@@ -16,7 +16,7 @@ public class PcFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pc,null);
+        View view = inflater.inflate(R.layout.fragment_pc,container, false);
         return view;
     }
 }

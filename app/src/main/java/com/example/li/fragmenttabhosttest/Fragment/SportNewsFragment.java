@@ -73,7 +73,9 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_news_sport, null);
+        System.out.println("SportNewsFragment:onCreateView");
+
+        rootView = inflater.inflate(R.layout.fragment_news_sport, container, false);
 
 
         initSwipeRefreshLayout();

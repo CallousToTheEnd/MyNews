@@ -37,7 +37,7 @@ public class NewsContentActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     tvNewsContentContent.setText(content);
-                    tvNewsContentSource.setText("搜狐实时快报");
+                    tvNewsContentSource.setText(source);
             }
         }
     };
@@ -55,14 +55,15 @@ public class NewsContentActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Document doc = Jsoup.connect(url).get();
-                    Elements newsContentElt = doc.getElementsByClass("finCnt");
+//                    正文内容
+                    Elements newsContentElt = doc.getElementsByClass("para");
                     for (Element e : newsContentElt) {
-                        Elements elt1 = e.getElementsByTag("p");
-                        elt1.remove(0);     //原标题
-                        for (Element elt2 : elt1) {
-                            content += elt2.text() + "\n" + "\u3000\u3000";
-                        }
+                            content += e.text() + "\n\n" + "\u3000\u3000";
                     }
+//                    来源
+                    Elements newsSourceElt = doc.getElementsByClass("ori");
+                    source = newsSourceElt.text();
+
                     mHandler.sendEmptyMessage(1);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -88,6 +89,11 @@ public class NewsContentActivity extends AppCompatActivity {
         tvNewsContentTitle.setText(title);
         tvNewsContentTime.setText(time);
 
+        content = "\u3000\u3000";
+    }
+
+    private String judgeSource(String url) {
+        return source;
     }
 
 }

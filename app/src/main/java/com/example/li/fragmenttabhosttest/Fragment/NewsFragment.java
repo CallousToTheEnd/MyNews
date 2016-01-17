@@ -6,7 +6,9 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -33,6 +35,11 @@ public class NewsFragment extends Fragment {
     private ImageView ivCursor;
     private ViewPager viewPager;
     private View view;
+
+    //    这个Adapter传入的FragmentManager要注意是getChildFragmentManager
+//    否则切换到其他页面再切换回来列表不显示数据
+    private NewsViewPagerAdapter viewPagerAdapter;
+
     private List<TextView> tvTitles = new ArrayList<>();
 
     private static final int TITLE_COUNT = 5;
@@ -45,7 +52,7 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_news,null);
+        view = inflater.inflate(R.layout.fragment_news, container, false);
 
         initView();
 
@@ -53,7 +60,7 @@ public class NewsFragment extends Fragment {
 
     }
 
-    private void initView(){
+    private void initView() {
 
         initIvCursor();
 
@@ -98,35 +105,9 @@ public class NewsFragment extends Fragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
-        viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
+        viewPagerAdapter = new NewsViewPagerAdapter(getChildFragmentManager());
 
-                return super.instantiateItem(container, position);
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new SportNewsFragment();
-                    case 1:
-                        return new SportNewsFragment();
-                    case 2:
-                        return new SportNewsFragment();
-                    case 3:
-                        return new SportNewsFragment();
-                    case 4:
-                        return new SportNewsFragment();
-                }
-                return null;
-            }
-
-            @Override
-            public int getCount() {
-                return TITLE_COUNT;
-            }
-        });
+        viewPager.setAdapter(viewPagerAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -157,6 +138,45 @@ public class NewsFragment extends Fragment {
             }
 
         });
+    }
+
+    public class NewsViewPagerAdapter extends FragmentStatePagerAdapter {
+        public NewsViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            System.out.println("instantiateItem");
+            return super.instantiateItem(container, position);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new SportNewsFragment();
+                case 1:
+                    return new SportNewsFragment();
+                case 2:
+                    return new SportNewsFragment();
+                case 3:
+                    return new SportNewsFragment();
+                case 4:
+                    return new SportNewsFragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return TITLE_COUNT;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
+        }
     }
 
 }
