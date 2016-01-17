@@ -43,9 +43,9 @@ import okhttp3.Response;
  * 体育新闻界面
  * Created by Mr.li on 2016-01-08.
  */
-public class SportNewsFragment extends Fragment implements BaseSliderView.OnSliderClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-//    private SliderLayout sliderShow;
+    //    private SliderLayout sliderShow;
     private View rootView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -56,17 +56,15 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
     private List<NewsContentBean> news = new ArrayList<>();
 
 
-
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
-//            for (SportNewsSlideBean s : slide) {
-//                System.out.println("link:" + s.getLink() );
-//            }
+            for (SportNewsSlideBean s : slide) {
+                System.out.println("link:" + s.getLink());
+            }
 
-//            reLoadSliderView();
-            initRecyclerView();
+            recyclerViewAdapter.notifyDataSetChanged();
         }
     };
 
@@ -77,9 +75,10 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
 
         rootView = inflater.inflate(R.layout.fragment_news_sport, null);
 
-//        initSliderLayout();
 
         initSwipeRefreshLayout();
+
+        initRecyclerView();
 
 
         new Thread(new Runnable() {
@@ -87,26 +86,14 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
             public void run() {
 
                 try {
+
                     //加载slider信息
-//                    Document doc = Jsoup.connect("http://sports.ifeng.com/").get();
-//                    Element slideElt = doc.getElementById("slide");
-//                    Elements slideNewsPicElts = slideElt.getElementsByClass("pic");
-//                    Elements slideNewsTxtElts = slideElt.getElementsByClass("txt");
-//
-//                    for (int i = 0; i < SLIDER_COUNT; i++) {
-//                        String slidePicUrl = slideNewsPicElts.get(i).getElementsByTag("img").attr("src");
-//                        String slideLink = slideNewsPicElts.get(i).getElementsByTag("a").attr("href") + "#p=1";
-//                        String slideDesc = slideNewsTxtElts.get(i).text();
-//                        SportNewsSlideBean slideBean = new SportNewsSlideBean(slidePicUrl, slideLink, slideDesc);
-//                        slide.add(slideBean);
-//                    }
-
-
+                    loadSlider();
                     //加载新闻信息
                     loadNews();
 
-
                     mHandler.sendEmptyMessage(1);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -119,65 +106,13 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
         return rootView;
     }
 
-    /**
-     * 初始化SliderLayout
-     */
-//    private void initSliderLayout() {
-//
-//        sliderShow = (SliderLayout) rootView.findViewById(R.id.slider);
-//
-//
-//        for (int i = 0; i < SLIDER_COUNT; i++) {
-//
-//            TextSliderView textSliderView = new TextSliderView(getActivity());
-//
-//            textSliderView.description("")
-//                    .image(R.mipmap.ic_launcher)
-//                    .bundle(new Bundle())
-//                    .setOnSliderClickListener(this);
-//
-//            sliderShow.addSlider(textSliderView);
-//
-//        }
-//
-//
-//        sliderShow.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
-//    }
-
-    /**
-     * 获取到网络数据后重新加载SliderView
-     */
-//    private void reLoadSliderView() {
-//
-//        sliderShow.removeAllSliders();
-//
-//
-//        for (int i = 0; i < SLIDER_COUNT; i++) {
-//
-//            TextSliderView textSliderView = new TextSliderView(getActivity());
-//
-//            //给TextSlliderView添加Bundle
-//            Bundle link = new Bundle();
-//            link.putString("link", slide.get(i).getLink());
-//
-//            textSliderView.description(slide.get(i).getDesc())
-//                    .image(slide.get(i).getPicUrl())
-//                    .bundle(link)
-//                    .setOnSliderClickListener(this);
-//
-//            sliderShow.addSlider(textSliderView);
-//
-//        }
-//
-//
-//    }
 
     /**
      * 初始化RecyclerView
      */
     private void initRecyclerView() {
 
-        recyclerViewAdapter = new NewsSportRecyclerViewAdapter(news, getContext(), getActivity());
+        recyclerViewAdapter = new NewsSportRecyclerViewAdapter(news, slide, getContext());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.RecyclerViewNewsSport);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -189,6 +124,12 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
                 TextView ttt = (TextView) v.findViewById(R.id.tvNewsSportRvViewHolderTitle);
                 Toast.makeText(getActivity(), "Title:" + ttt.getText() + "position:" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), NewsContentActivity.class);
+
+                intent.putExtra("title", news.get(position).getTitle());
+                intent.putExtra("time", news.get(position).getTime());
+                intent.putExtra("picUrl", news.get(position).getUrl());
+                intent.putExtra("url", news.get(position).getUrl());
+
                 startActivity(intent);
             }
         });
@@ -204,9 +145,31 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
     }
 
     /**
+     * 加载Slider信息
+     */
+    private void loadSlider() throws IOException {
+
+
+        Document doc = Jsoup.connect("http://sports.ifeng.com/").get();
+        Element slideElt = doc.getElementById("slide");
+        Elements slideNewsPicElts = slideElt.getElementsByClass("pic");
+        Elements slideNewsTxtElts = slideElt.getElementsByClass("txt");
+
+        for (int i = 0; i < slideNewsPicElts.size(); i++) {
+            String slidePicUrl = slideNewsPicElts.get(i).getElementsByTag("img").attr("src");
+            String slideLink = slideNewsPicElts.get(i).getElementsByTag("a").attr("href") + "#p=1";
+            String slideDesc = slideNewsTxtElts.get(i).text();
+            SportNewsSlideBean slideBean = new SportNewsSlideBean(slidePicUrl, slideLink, slideDesc);
+            slide.add(slideBean);
+        }
+
+    }
+
+    /**
      * （apistore开放接口） 加载新闻，
      */
     private void loadNews() throws IOException {
+
 
         String apiUrl = "http://apis.baidu.com/txapi/world/world?&num=11&page=1";
 
@@ -246,19 +209,17 @@ public class SportNewsFragment extends Fragment implements BaseSliderView.OnSlid
 
     @Override
     public void onStop() {
-//        sliderShow.stopAutoCycle();
+
         super.onStop();
     }
 
     @Override
-    public void onSliderClick(BaseSliderView slider) {
-        Toast.makeText(getActivity(), slider.getBundle().getString("link", "-1"), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onRefresh() {
-//        reLoadSliderView();
+
+        System.out.println("刷新");
 
         swipeRefreshLayout.setRefreshing(false);
+
     }
+
 }

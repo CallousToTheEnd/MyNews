@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tvTitleSport"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/background_light"
             android:gravity="center"
-            android:textColor="@android:color/tertiary_text_dark"
-            android:text="@string/title_Sports"/>
+            android:text="@string/title_Sports" />
+
         <TextView
             android:id="@+id/tvTitleApple"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/background_light"
             android:gravity="center"
-            android:text="@string/title_apple"/>
+            android:text="@string/title_apple" />
+
         <TextView
             android:id="@+id/tvTitleSociology"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/background_light"
             android:gravity="center"
-            android:text="@string/title_Sociology"/>
+            android:text="@string/title_Sociology" />
+
         <TextView
             android:id="@+id/tvTitleTechnology"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/background_light"
             android:gravity="center"
-            android:text="@string/title_Technology"/>
+            android:text="@string/title_Technology" />
+
         <TextView
             android:id="@+id/tvTitleInternational"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/background_light"
             android:gravity="center"
-            android:text="@string/title_International"/>
+            android:text="@string/title_International" />
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/ivCursor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="matrix"
-        android:id="@+id/ivCursor"
-        android:src="@mipmap/cursor"/>
+        android:src="@mipmap/cursor" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

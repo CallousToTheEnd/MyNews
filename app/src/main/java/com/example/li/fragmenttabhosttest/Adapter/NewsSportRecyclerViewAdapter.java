@@ -1,9 +1,6 @@
 package com.example.li.fragmenttabhosttest.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
-import com.example.li.fragmenttabhosttest.Fragment.SportNewsFragment;
+import com.example.li.fragmenttabhosttest.Bean.SportNewsSlideBean;
 import com.example.li.fragmenttabhosttest.R;
 
 import java.util.ArrayList;
@@ -31,22 +28,23 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     private static final int IS_HEADER = 2;
     private static final int IS_NORMAL = 1;
-    private static final int SLIDER_COUNT = 5;
+
+    public static int ADD_TEXTSLIDERVIEW = 1;
 
     private Context mContext;
-    private Activity mActivity;
 
     private MyViewHolder mViewHolder;
 
-    private List<NewsContentBean> mDataList = new ArrayList<>();
+    private List<NewsContentBean> mNewsList = new ArrayList<>();
+    private List<SportNewsSlideBean> mSlideList = new ArrayList<>();
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
 
-    public NewsSportRecyclerViewAdapter(List<NewsContentBean> Data, Context context, Activity activity) {
-        mDataList = Data;
+    public NewsSportRecyclerViewAdapter(List<NewsContentBean> Data, List<SportNewsSlideBean> slideData, Context context) {
+        mNewsList = Data;
         mContext = context;
-        mActivity = activity;
+        mSlideList = slideData;
     }
 
     /**
@@ -60,14 +58,15 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        //因为要在第一个位置上放一个SliderLayout，所以对不同的flag创建不同的Holder，这里的flag是重写getItemViewType方法中返回的数值
         if (viewType == IS_NORMAL) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sportnews_recyclerview_viewhodler,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_recyclerview_viewhodler,parent,false);
             mViewHolder = new MyViewHolder(view,IS_NORMAL);
             //将创建的View注册点击事件
             view.setOnClickListener(this);
             return mViewHolder;
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_sport_sliderview, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_sliderview, parent, false);
             mViewHolder = new MyViewHolder(view,IS_HEADER);
             return mViewHolder;
         }
@@ -79,23 +78,26 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
         MyViewHolder myh = (MyViewHolder) holder;
 
+        //这里的itemType是创建MyViewHodler时传入的参数；
         if (myh.itemType == IS_NORMAL) {
-            myh.getTvTime().setText(mDataList.get(position).getTime());
-            myh.getTvTitle().setText(mDataList.get(position).getTitle());
+            myh.getTvTime().setText(mNewsList.get(position - 1).getTime());
+            myh.getTvTitle().setText(mNewsList.get(position - 1).getTitle());
             //将位置保存在itemView的Tag中，以便点击时进行获取
             myh.itemView.setTag(position - 1);
         } else if (myh.itemType == IS_HEADER){
-            for (int i = 0; i < SLIDER_COUNT; i++) {
+
+            myh.getSliderLayout().removeAllSliders();
+            for (int i = 0; i < mSlideList.size(); i++) {
 
                 TextSliderView textSliderView = new TextSliderView(mContext);
 
-                textSliderView.description("")
-                        .image(R.mipmap.ic_launcher)
-                        .bundle(new Bundle())
+                final int finalI = i;
+                textSliderView.description(mSlideList.get(i).getDesc())
+                        .image(mSlideList.get(i).getPicUrl())
                         .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                             @Override
                             public void onSliderClick(BaseSliderView slider) {
-                                Toast.makeText(mContext, slider.getBundle().getString("link", "-1"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, mSlideList.get(finalI).getLink(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -115,7 +117,7 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     @Override
     public int getItemCount() {
-        return mDataList.size() + 1;
+        return mNewsList.size() + 1;
     }
 
     @Override
