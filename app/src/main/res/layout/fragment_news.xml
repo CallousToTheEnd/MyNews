@@ -4,56 +4,67 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvTitleSport"
+        <RadioButton
+            android:id="@+id/rbTitleSport"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@android:color/background_light"
+            android:button="@null"
             android:gravity="center"
-            android:text="@string/title_Sports" />
+            android:text="@string/title_Sports"
+            android:textColor="@drawable/selector_title" />
 
-        <TextView
-            android:id="@+id/tvTitleApple"
+        <RadioButton
+            android:id="@+id/rbTitleApple"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@android:color/background_light"
+            android:button="@null"
             android:gravity="center"
-            android:text="@string/title_apple" />
+            android:text="@string/title_apple"
+            android:textColor="@drawable/selector_title" />
 
-        <TextView
-            android:id="@+id/tvTitleSociology"
+        <RadioButton
+            android:id="@+id/rbTitleSociology"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@android:color/background_light"
+            android:button="@null"
             android:gravity="center"
-            android:text="@string/title_Sociology" />
+            android:text="@string/title_Sociology"
+            android:textColor="@drawable/selector_title" />
 
-        <TextView
-            android:id="@+id/tvTitleTechnology"
+        <RadioButton
+            android:id="@+id/rbTitleTechnology"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@android:color/background_light"
+            android:button="@null"
             android:gravity="center"
-            android:text="@string/title_Technology" />
+            android:text="@string/title_Technology"
+            android:textColor="@drawable/selector_title"/>
 
-        <TextView
-            android:id="@+id/tvTitleInternational"
+        <RadioButton
+            android:id="@+id/rbTitleInternational"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@android:color/background_light"
+            android:button="@null"
             android:gravity="center"
-            android:text="@string/title_International" />
-    </LinearLayout>
+            android:text="@string/title_International"
+            android:textColor="@drawable/selector_title"
+            />
+    </RadioGroup>
 
     <ImageView
         android:id="@+id/ivCursor"

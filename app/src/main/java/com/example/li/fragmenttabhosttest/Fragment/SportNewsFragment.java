@@ -73,8 +73,6 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        System.out.println("SportNewsFragment:onCreateView");
-
         rootView = inflater.inflate(R.layout.fragment_news_sport, container, false);
 
 
@@ -151,6 +149,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
      */
     private void loadSlider() throws IOException {
 
+        slide.clear();
 
         Document doc = Jsoup.connect("http://sports.ifeng.com/").get();
         Element slideElt = doc.getElementById("slide");

@@ -64,16 +64,16 @@ public class NewsFragment extends Fragment {
 
         initIvCursor();
 
-        tvTitleApple = (TextView) view.findViewById(R.id.tvTitleApple);
-        tvTitleInternational = (TextView) view.findViewById(R.id.tvTitleInternational);
-        tvTitleSociology = (TextView) view.findViewById(R.id.tvTitleSociology);
-        tvTitleSports = (TextView) view.findViewById(R.id.tvTitleSport);
-        tvTitleTechnology = (TextView) view.findViewById(R.id.tvTitleTechnology);
-        tvTitles.add(tvTitleSports);
-        tvTitles.add(tvTitleApple);
-        tvTitles.add(tvTitleSociology);
-        tvTitles.add(tvTitleTechnology);
-        tvTitles.add(tvTitleInternational);
+//        tvTitleApple = (TextView) view.findViewById(R.id.tvTitleApple);
+//        tvTitleInternational = (TextView) view.findViewById(R.id.tvTitleInternational);
+//        tvTitleSociology = (TextView) view.findViewById(R.id.tvTitleSociology);
+//        tvTitleSports = (TextView) view.findViewById(R.id.tvTitleSport);
+//        tvTitleTechnology = (TextView) view.findViewById(R.id.tvTitleTechnology);
+//        tvTitles.add(tvTitleSports);
+//        tvTitles.add(tvTitleApple);
+//        tvTitles.add(tvTitleSociology);
+//        tvTitles.add(tvTitleTechnology);
+//        tvTitles.add(tvTitleInternational);
 
         initViewPager();
 
@@ -126,10 +126,10 @@ public class NewsFragment extends Fragment {
                 animation.setFillAfter(true);
                 animation.setDuration(300);
                 ivCursor.startAnimation(animation);
-                tvTitles.get(current_index).setTextColor(getResources().getColor(android.R.color.tertiary_text_dark));
-                tvTitles.get(position).setTextColor(Color.RED);
+//                tvTitles.get(current_index).setTextColor(getResources().getColor(android.R.color.tertiary_text_dark));
+//                tvTitles.get(position).setTextColor(Color.RED);
                 current_index = position;
-                System.out.println(tvTitles.get(position).getText());
+//                System.out.println(tvTitles.get(position).getText());
             }
 
             @Override
@@ -157,13 +157,13 @@ public class NewsFragment extends Fragment {
                 case 0:
                     return new SportNewsFragment();
                 case 1:
-                    return new SportNewsFragment();
+                    return new AppleNewsFragment();
                 case 2:
-                    return new SportNewsFragment();
+                    return new SociologyNewsFragment();
                 case 3:
-                    return new SportNewsFragment();
+                    return new TechnologyNewsFragment();
                 case 4:
-                    return new SportNewsFragment();
+                    return new InternationalNewsFragment();
             }
             return null;
         }
