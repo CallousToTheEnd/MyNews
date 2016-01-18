@@ -59,11 +59,6 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
-            for (SportNewsSlideBean s : slide) {
-                System.out.println("link:" + s.getLink());
-            }
-
             recyclerViewAdapter.notifyDataSetChanged();
         }
     };

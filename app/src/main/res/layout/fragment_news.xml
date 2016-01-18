@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RadioGroup
+        android:id="@+id/rgTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -17,6 +18,7 @@
             android:background="@android:color/background_light"
             android:button="@null"
             android:gravity="center"
+            android:checked="true"
             android:text="@string/title_Sports"
             android:textColor="@drawable/selector_title" />
 
@@ -51,7 +53,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/title_Technology"
-            android:textColor="@drawable/selector_title"/>
+            android:textColor="@drawable/selector_title" />
 
         <RadioButton
             android:id="@+id/rbTitleInternational"
@@ -62,8 +64,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/title_International"
-            android:textColor="@drawable/selector_title"
-            />
+            android:textColor="@drawable/selector_title" />
     </RadioGroup>
 
     <ImageView

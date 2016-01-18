@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * 实现了Item的点击事件，参考资料：http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0327/2647.html
- *
+ * <p/>
  * Created by Mr.li on 2016/1/11.
  */
 public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener {
@@ -28,8 +28,6 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     private static final int IS_HEADER = 2;
     private static final int IS_NORMAL = 1;
-
-    public static int ADD_TEXTSLIDERVIEW = 1;
 
     private Context mContext;
 
@@ -60,14 +58,14 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
         //因为要在第一个位置上放一个SliderLayout，所以对不同的flag创建不同的Holder，这里的flag是重写getItemViewType方法中返回的数值
         if (viewType == IS_NORMAL) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_recyclerview_viewhodler,parent,false);
-            mViewHolder = new MyViewHolder(view,IS_NORMAL);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_recyclerview_viewhodler, parent, false);
+            mViewHolder = new MyViewHolder(view, IS_NORMAL);
             //将创建的View注册点击事件
             view.setOnClickListener(this);
             return mViewHolder;
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_sliderview, parent, false);
-            mViewHolder = new MyViewHolder(view,IS_HEADER);
+            mViewHolder = new MyViewHolder(view, IS_HEADER);
             return mViewHolder;
         }
 
@@ -84,7 +82,7 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
             myh.getTvTitle().setText(mNewsList.get(position - 1).getTitle());
             //将位置保存在itemView的Tag中，以便点击时进行获取
             myh.itemView.setTag(position - 1);
-        } else if (myh.itemType == IS_HEADER){
+        } else if (myh.itemType == IS_HEADER) {
 
             myh.getSliderLayout().removeAllSliders();
             for (int i = 0; i < mSlideList.size(); i++) {
@@ -111,8 +109,6 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
         }
 
 
-
-
     }
 
     @Override
@@ -124,7 +120,7 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v, (int)v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
 
@@ -139,9 +135,10 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     /**
      * 为RecyclerView注册Item的点击事件
+     *
      * @param listener
      */
-    public void setOnItemClickListener (OnRecyclerViewItemClickListener listener){
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
@@ -165,7 +162,7 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
             if (itemType == IS_HEADER) {
                 sliderLayout = (SliderLayout) rootView.findViewById(R.id.slider);
-            } else if (itemType == IS_NORMAL){
+            } else if (itemType == IS_NORMAL) {
                 tvTitle = (TextView) rootView.findViewById(R.id.tvNewsSportRvViewHolderTitle);
                 tvTime = (TextView) rootView.findViewById(R.id.tvNewsSportRvViewHolderTime);
             }
@@ -177,7 +174,7 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
         }
 
         public TextView getTvTime() {
-            return  tvTime;
+            return tvTime;
         }
 
         public SliderLayout getSliderLayout() {

@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.li.fragmenttabhosttest.R;
@@ -30,8 +32,9 @@ import java.util.List;
  */
 public class NewsFragment extends Fragment {
 
-    private TextView tvTitleSports, tvTitleInternational, tvTitleTechnology,
-            tvTitleSociology, tvTitleApple;
+    private RadioGroup rgTitle;
+    private RadioButton rbTitleSports, rbTitleInternational, rbTitleTechnology,
+            rbTitleSociology, rbTitleApple;
     private ImageView ivCursor;
     private ViewPager viewPager;
     private View view;
@@ -64,18 +67,38 @@ public class NewsFragment extends Fragment {
 
         initIvCursor();
 
-//        tvTitleApple = (TextView) view.findViewById(R.id.tvTitleApple);
-//        tvTitleInternational = (TextView) view.findViewById(R.id.tvTitleInternational);
-//        tvTitleSociology = (TextView) view.findViewById(R.id.tvTitleSociology);
-//        tvTitleSports = (TextView) view.findViewById(R.id.tvTitleSport);
-//        tvTitleTechnology = (TextView) view.findViewById(R.id.tvTitleTechnology);
-//        tvTitles.add(tvTitleSports);
-//        tvTitles.add(tvTitleApple);
-//        tvTitles.add(tvTitleSociology);
-//        tvTitles.add(tvTitleTechnology);
-//        tvTitles.add(tvTitleInternational);
+        rgTitle = (RadioGroup) view.findViewById(R.id.rgTitle);
+        rbTitleSports = (RadioButton) view.findViewById(R.id.rbTitleSport);
+        rbTitleApple = (RadioButton) view.findViewById(R.id.rbTitleApple);
+        rbTitleInternational = (RadioButton) view.findViewById(R.id.rbTitleInternational);
+        rbTitleSociology = (RadioButton) view.findViewById(R.id.rbTitleSociology);
+        rbTitleTechnology = (RadioButton) view.findViewById(R.id.rbTitleTechnology);
 
         initViewPager();
+
+        rgTitle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbTitleSport:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.rbTitleApple:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.rbTitleSociology:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.rbTitleTechnology:
+                        viewPager.setCurrentItem(3);
+                        break;
+                    case R.id.rbTitleInternational:
+                        viewPager.setCurrentItem(4);
+                        break;
+                }
+            }
+        });
+
 
     }
 
@@ -126,10 +149,25 @@ public class NewsFragment extends Fragment {
                 animation.setFillAfter(true);
                 animation.setDuration(300);
                 ivCursor.startAnimation(animation);
-//                tvTitles.get(current_index).setTextColor(getResources().getColor(android.R.color.tertiary_text_dark));
-//                tvTitles.get(position).setTextColor(Color.RED);
+//                RadioButton的设置
+                switch (position) {
+                    case 0:
+                        rbTitleSports.setChecked(true);
+                        break;
+                    case 1:
+                        rbTitleApple.setChecked(true);
+                        break;
+                    case 2:
+                        rbTitleSociology.setChecked(true);
+                        break;
+                    case 3:
+                        rbTitleTechnology.setChecked(true);
+                        break;
+                    case 4:
+                        rbTitleInternational.setChecked(true);
+                        break;
+                }
                 current_index = position;
-//                System.out.println(tvTitles.get(position).getText());
             }
 
             @Override
@@ -147,7 +185,6 @@ public class NewsFragment extends Fragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            System.out.println("instantiateItem");
             return super.instantiateItem(container, position);
         }
 
