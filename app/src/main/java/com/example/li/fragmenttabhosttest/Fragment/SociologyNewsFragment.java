@@ -19,6 +19,13 @@ public class SociologyNewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(rootView != null){
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) {
+                parent.removeView(rootView);
+            }
+            return rootView;
+        }
         rootView = inflater.inflate(R.layout.fragment_news_sociology, container, false);
         return rootView;
     }

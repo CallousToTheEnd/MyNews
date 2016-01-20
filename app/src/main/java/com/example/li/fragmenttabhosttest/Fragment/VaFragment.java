@@ -13,10 +13,20 @@ import com.example.li.fragmenttabhosttest.R;
  * Created by Mr.li on 2016-01-07.
  */
 public class VaFragment extends Fragment {
+
+    View rootView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_va, container, false);
-        return view;
+        if(rootView != null){
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) {
+                parent.removeView(rootView);
+            }
+            return rootView;
+        }
+        rootView = inflater.inflate(R.layout.fragment_va, container, false);
+        return rootView;
     }
 }

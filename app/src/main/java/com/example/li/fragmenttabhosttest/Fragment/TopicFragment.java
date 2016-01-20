@@ -13,10 +13,13 @@ import com.example.li.fragmenttabhosttest.R;
  * Created by Mr.li on 2016-01-07.
  */
 public class TopicFragment extends Fragment {
+
+    View rootView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_topic, container, false);
-        return view;
+        rootView= inflater.inflate(R.layout.fragment_topic, container, false);
+        return rootView;
     }
 }

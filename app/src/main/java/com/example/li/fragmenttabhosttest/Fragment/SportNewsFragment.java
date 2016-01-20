@@ -68,8 +68,17 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        System.out.println("onCreateView");
+        //这个判断是因为 如果不是第一次进入这个Fragment的话，就不再进行数据的初始化，
+//        而是直接把第一次进入时的rootView先从父View删除，然后再return这个rootView返回
+        if(rootView != null){
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) {
+                parent.removeView(rootView);
+            }
+            return rootView;
+        }
         rootView = inflater.inflate(R.layout.fragment_news_sport, container, false);
-
 
         initSwipeRefreshLayout();
 
