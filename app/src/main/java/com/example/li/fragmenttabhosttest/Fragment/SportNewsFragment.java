@@ -1,6 +1,8 @@
 package com.example.li.fragmenttabhosttest.Fragment;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +24,7 @@ import com.example.li.fragmenttabhosttest.Activity.NewsContentActivity;
 import com.example.li.fragmenttabhosttest.Adapter.NewsSportRecyclerViewAdapter;
 import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
 import com.example.li.fragmenttabhosttest.Bean.SportNewsSlideBean;
+import com.example.li.fragmenttabhosttest.DividerItemDecoration;
 import com.example.li.fragmenttabhosttest.R;
 
 import org.json.JSONException;
@@ -66,9 +69,9 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container
+            , Bundle savedInstanceState) {
 
-        System.out.println("onCreateView");
         //这个判断是因为 如果不是第一次进入这个Fragment的话，就不再进行数据的初始化，
 //        而是直接把第一次进入时的rootView先从父View删除，然后再return这个rootView返回
         if(rootView != null){
@@ -121,12 +124,17 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerViewAdapter);
+//        添加分隔线
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()
+                , DividerItemDecoration.VERTICAL_LIST));
 
-        recyclerViewAdapter.setOnItemClickListener(new NewsSportRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+        recyclerViewAdapter.setOnItemClickListener(new NewsSportRecyclerViewAdapter
+                .OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 TextView ttt = (TextView) v.findViewById(R.id.tvNewsSportRvViewHolderTitle);
-                Toast.makeText(getActivity(), "Title:" + ttt.getText() + "position:" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Title:" + ttt.getText() + "position:"
+                        + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), NewsContentActivity.class);
 
                 intent.putExtra("title", news.get(position).getTitle());

@@ -48,7 +48,8 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
     private ImageLoader imageLoader;
 
 
-    public NewsSportRecyclerViewAdapter(List<NewsContentBean> Data, List<SportNewsSlideBean> slideData, Context context) {
+    public NewsSportRecyclerViewAdapter(List<NewsContentBean> Data
+            , List<SportNewsSlideBean> slideData, Context context) {
         mNewsList = Data;
         mContext = context;
         mSlideList = slideData;
@@ -67,13 +68,15 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
         //因为要在第一个位置上放一个SliderLayout，所以对不同的flag创建不同的Holder，这里的flag是重写getItemViewType方法中返回的数值
         if (viewType == IS_NORMAL) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_recyclerview_viewhodler, parent, false);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.sport_news_recyclerview_viewhodler, parent, false);
             mViewHolder = new MyViewHolder(view, IS_NORMAL);
             //将创建的View注册点击事件
             view.setOnClickListener(this);
             return mViewHolder;
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sport_news_sliderview, parent, false);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.sport_news_sliderview, parent, false);
             mViewHolder = new MyViewHolder(view, IS_HEADER);
             return mViewHolder;
         }
@@ -91,8 +94,9 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
             myh.getTvTime().setText(mNewsList.get(position - 1).getTime());
             myh.getTvTitle().setText(mNewsList.get(position - 1).getTitle());
 //            ImageLoader加载网络图片
-            ImageSize imageSize = new ImageSize(100,850);
-            imageLoader.getInstance().displayImage(mNewsList.get(position - 1).getPicUrl(), myh.getIvImage(), imageSize);
+            ImageSize imageSize = new ImageSize(1000, 85);
+            imageLoader.getInstance().displayImage(mNewsList.get(position - 1).getPicUrl()
+                    , myh.getIvImage(), imageSize);
 
             //将位置保存在itemView的Tag中，以便点击时进行获取
             myh.itemView.setTag(position - 1);
@@ -109,7 +113,8 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
                         .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                             @Override
                             public void onSliderClick(BaseSliderView slider) {
-                                Toast.makeText(mContext, mSlideList.get(finalI).getLink(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, mSlideList.get(finalI).getLink()
+                                        , Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -192,7 +197,9 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
             return tvTime;
         }
 
-        public ImageView getIvImage() { return ivImage; }
+        public ImageView getIvImage() {
+            return ivImage;
+        }
 
         public SliderLayout getSliderLayout() {
             return sliderLayout;
