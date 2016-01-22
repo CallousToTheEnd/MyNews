@@ -1,8 +1,6 @@
 package com.example.li.fragmenttabhosttest.Fragment;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,9 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.li.fragmenttabhosttest.Activity.NewsContentActivity;
 import com.example.li.fragmenttabhosttest.Adapter.NewsSportRecyclerViewAdapter;
 import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
@@ -74,7 +69,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         //这个判断是因为 如果不是第一次进入这个Fragment的话，就不再进行数据的初始化，
 //        而是直接把第一次进入时的rootView先从父View删除，然后再return这个rootView返回
-        if(rootView != null){
+        if (rootView != null) {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
                 parent.removeView(rootView);
@@ -150,7 +145,8 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void initSwipeRefreshLayout() {
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.newsSportSwipeRefreshLayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView
+                .findViewById(R.id.swipeRefreshLayoutNewsSport);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 

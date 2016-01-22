@@ -109,7 +109,7 @@ public class NewsFragment extends Fragment {
         ivCursor = (ImageView) view.findViewById(R.id.ivCursor);
         // 获取图片宽度
         lineWidth = BitmapFactory.decodeResource(getResources(),
-                R.mipmap.cursor).getWidth();
+                R.drawable.cursor).getWidth();
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         // 获取屏幕宽度
