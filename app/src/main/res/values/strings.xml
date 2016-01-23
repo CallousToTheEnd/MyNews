@@ -11,4 +11,11 @@
     <string name="title_Technology">科技</string>
     <string name="title_Sociology">社会</string>
     <string name="title_apple">苹果</string>
+    <string name="topic_itemtype_technology">科技</string>
+    <string name="topic_itemtype_humanity">人文</string>
+    <string name="topic_itemtype_finance">财经</string>
+    <string name="topic_itemtype_healthy">健康</string>
+    <string name="topic_itemtype_other">其它</string>
+    <string name="topic_state_ongoing">进行中</string>
+    <string name="topic_state_end">结束</string>\
 </resources>

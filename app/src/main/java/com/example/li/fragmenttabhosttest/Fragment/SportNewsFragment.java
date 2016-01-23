@@ -19,7 +19,7 @@ import com.example.li.fragmenttabhosttest.Activity.NewsContentActivity;
 import com.example.li.fragmenttabhosttest.Adapter.NewsSportRecyclerViewAdapter;
 import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
 import com.example.li.fragmenttabhosttest.Bean.SportNewsSlideBean;
-import com.example.li.fragmenttabhosttest.DividerItemDecoration;
+import com.example.li.fragmenttabhosttest.custom.DividerItemDecoration;
 import com.example.li.fragmenttabhosttest.R;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.li.fragmenttabhosttest;
+package com.example.li.fragmenttabhosttest.custom;
 
 import android.content.Context;
 import android.content.res.TypedArray;
