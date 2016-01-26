@@ -14,10 +14,12 @@
         android:id="@+id/realtabcontent"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:elevation="5dp"/>
 
     <android.support.v4.app.FragmentTabHost
         android:id="@android:id/tabhost"
+        android:background="#f0f0f0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="10dp"

@@ -24,7 +24,8 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/23.
  */
-public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
+public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements
+        View.OnClickListener{
 
     private MyViewHolder viewHolder;
 
@@ -32,9 +33,15 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private List<TopicFragmentItemBean> mTopics = new ArrayList<>();
 
+    private OnRecyclerViewItemClickListener mItemClickListener = null;
+
     public TopicFragmentRecyclerViewAdapter(Context mContext, List<TopicFragmentItemBean> mTopics) {
         this.mContext = mContext;
         this.mTopics = mTopics;
+    }
+
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View v, int position);
     }
 
     @Override
@@ -42,6 +49,7 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.topic_recyclerview_viewholder,parent,false);
         viewHolder = new MyViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -95,11 +103,21 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+        mvh.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return mTopics.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        mItemClickListener.onItemClick(v, (int)v.getTag());
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        mItemClickListener = listener;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

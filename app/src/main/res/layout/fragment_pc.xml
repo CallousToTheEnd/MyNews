@@ -1,13 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/biz_live_viewpager_bg">
+    android:background="@drawable/biz_live_viewpager_bg"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="wo"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
 
-        android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/test_readfragment" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivPcHeadImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/biz_pc_main_info_profile_avatar_bg_dark" />
+
+        <TextView
+            android:id="@+id/tvPcLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivPcHeadImage"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:text="立即登陆"
+            android:textColor="#ffffff"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPcLogin"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="3dp"
+            android:text="赢积分 强大礼!"
+            android:textColor="#ffff00"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llPcRead"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_pc_main_item"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/biz_pc_main_read_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="阅读"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPcFav"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_pc_main_item"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/biz_pc_main_fav_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="收藏"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPcTie"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_pc_main_item"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/biz_pc_main_tie_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="跟帖"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPcGolden"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_pc_main_item"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/biz_pc_main_golden_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="金币"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewPcFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+
 </LinearLayout>
