@@ -17,6 +17,15 @@
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <TextView
+                android:id="@+id/tvTopicToolbar"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:text="问吧"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:gravity="center"/>
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

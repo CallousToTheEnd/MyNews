@@ -24,15 +24,16 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/btnReadToolbarRecommendRead"
+                    android:id="@+id/rbReadToolbarRecommendRead"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="推荐阅读"
+                    android:checked="true"
                     android:textColor="@drawable/selector_read_toolbar_text"
                     android:button="@null"/>
 
                 <RadioButton
-                    android:id="@+id/btnReadToolbarMyBook"
+                    android:id="@+id/rbReadToolbarMyBook"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,27 +43,15 @@
 
             </RadioGroup>
 
-
-
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutReadFragment"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPagerReadFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerViewReadFragment"
-            android:scrollbars="vertical">
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.view.ViewPager>
 
 
 </LinearLayout>

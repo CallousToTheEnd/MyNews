@@ -3,12 +3,19 @@ package com.example.li.fragmenttabhosttest.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,17 +29,15 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016-01-07.
  */
-public class ReadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ReadFragment extends Fragment {
 
     private View rootView;
+    private ViewPager viewPager;
+    private RadioGroup radioGroup;
+    private RadioButton rbRecommendRead, rbMyBook;
 
-    private SwipeRefreshLayout refreshLayout;
+    private Toolbar toolbar;
 
-    private RecyclerView recyclerView;
-
-    private ReadFragmentRecyclerViewAdapter recyclerViewAdapter;
-
-    private List<ReadFragmentItemBean> reads = new ArrayList<>();
 
     @Nullable
     @Override
@@ -51,64 +56,82 @@ public class ReadFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void initView() {
-        refreshLayout = (SwipeRefreshLayout) rootView
-                .findViewById(R.id.swipeRefreshLayoutReadFragment);
-        refreshLayout.setOnRefreshListener(this);
-        recyclerViewAdapter = new ReadFragmentRecyclerViewAdapter(getReads(), getContext());
-        recyclerViewAdapter.setOnItemClickListener(new ReadFragmentRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbarReadFragment);
+        toolbar.inflateMenu(R.menu.menu_read);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-                TextView tvDesc = (TextView) v.findViewById(R.id.tvReadRvViewHolderDesc);
-                TextView tvSource = (TextView) v.findViewById(R.id.tvReadRvViewHolderResource);
-                String toast = "desc:" + tvDesc.getText() + "\n"
-                        + "source" + tvSource.getText() + "\n"
-                        + "position:" + position;
-                Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.read_menu_add:
+                        Toast.makeText(getContext(), getString(R.string.read_menu_add), Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
         });
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewReadFragment);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        radioGroup = (RadioGroup) rootView.findViewById(R.id.rgReadToolbar);
+        rbRecommendRead = (RadioButton) rootView.findViewById(R.id.rbReadToolbarRecommendRead);
+        rbMyBook = (RadioButton) rootView.findViewById(R.id.rbReadToolbarMyBook);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewPagerReadFragment);
+        viewPager.setAdapter(new MyViewPagerAdapter(getChildFragmentManager()));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        rbRecommendRead.setChecked(true);
+                        break;
+                    case 1:
+                        rbMyBook.setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbReadToolbarRecommendRead:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.rbReadToolbarMyBook:
+                        viewPager.setCurrentItem(1);
+                        break;
+                }
+            }
+        });
     }
 
-    @Override
-    public void onRefresh() {
-        Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
-        refreshLayout.setRefreshing(false);
-    }
+    class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<ReadFragmentItemBean> getReads() {
-        ReadFragmentItemBean read1 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "哒哒良品"
-                , "中国“第五大发明”横空出世？据说能让你撕逼所向披靡");
-        ReadFragmentItemBean read2 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "中国日报网"
-                , "当零下11℃遇上孩子的脑洞各自操心的事距离有多远");
-        ReadFragmentItemBean read3 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "人民网"
-                , "小学生谈二孩：我是家里小皇帝 再生就是篡位");
-        ReadFragmentItemBean read4 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "环球趣闻"
-                , "美国喵星人胸口有个超萌黑色大爱心 因太内向从没离开收容");
-        ReadFragmentItemBean read5 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "哒哒"
-                , "键盘上藏着一排秘密 ASDFGHJKL代表爱情哲理？");
-        ReadFragmentItemBean read6 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "哒哒"
-                , "如果看不到这一点，你就白看了《太子妃》");
-        ReadFragmentItemBean read7 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "神秘的地球"
-                , "澳洲海岸惊现长达7米的巨无霸大白鲨");
-        ReadFragmentItemBean read8 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "华股财经"
-                , "揭秘网络主播：60万人观看换衣 土豪一晚砸百万");
-        ReadFragmentItemBean read9 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "环球网"
-                , "野狼群夜袭河北村庄 50多只羊惨死");
-        ReadFragmentItemBean read10 = new ReadFragmentItemBean(R.mipmap.ic_launcher, "哒哒"
-                , "80岁奶奶的表演一度被评委叫停，但他接下来竟...");
-        reads.add(read1);
-        reads.add(read2);
-        reads.add(read3);
-        reads.add(read4);
-        reads.add(read5);
-        reads.add(read6);
-        reads.add(read7);
-        reads.add(read8);
-        reads.add(read9);
-        reads.add(read10);
-        return reads;
+        public MyViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new RecommentReadFragment();
+                case 1:
+                    return new RecommentReadFragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 
 }

@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,6 +36,8 @@ public class TopicFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public static final int TOPIC_STATE_END = 2;
 
     private View rootView;
+    private Toolbar toolbar;
+    private TextView tvTopicToolbar;
 
     private RecyclerView recyclerView;
     private TopicFragmentRecyclerViewAdapter recyclerViewAdapter;
@@ -59,6 +63,26 @@ public class TopicFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void initView() {
+        tvTopicToolbar = (TextView) rootView.findViewById(R.id.tvTopicToolbar);
+        tvTopicToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "置顶", Toast.LENGTH_SHORT).show();
+            }
+        });
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTopicFragment);
+        toolbar.inflateMenu(R.menu.menu_topic);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.topic_menu:
+                        Toast.makeText(getContext(), "我关注的", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
         refreshLayout = (SwipeRefreshLayout) rootView
                 .findViewById(R.id.swipeRefreshLayoutTopicFragment);
         refreshLayout.setOnRefreshListener(this);

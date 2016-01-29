@@ -20,7 +20,7 @@
                 android:id="@+id/ivNewsToolBar"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/base_common_default_icon_small"/>
+                android:src="@mipmap/base_toolbar_news_icon"/>
 
         </android.support.v7.widget.Toolbar>
 

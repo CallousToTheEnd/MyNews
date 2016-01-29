@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ public class PcFragment extends Fragment {
     private TextView tvLogin;
     private ImageView ivHeadImage;
     private RecyclerView recyclerView;
+    private Toolbar toolbar;
 
     private LinearLayout llPcRead, llPcFav, llPcTie, llPcGolden;
 
@@ -55,6 +57,19 @@ public class PcFragment extends Fragment {
     }
 
     private void initView() {
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbarPcFragment);
+        toolbar.inflateMenu(R.menu.menu_pc);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.pc_menu:
+                        Toast.makeText(getContext(), "设置", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
         tvLogin = (TextView) rootView.findViewById(R.id.tvPcLogin);
         ivHeadImage = (ImageView) rootView.findViewById(R.id.ivPcHeadImage);
         llPcRead = (LinearLayout) rootView.findViewById(R.id.llPcRead);
