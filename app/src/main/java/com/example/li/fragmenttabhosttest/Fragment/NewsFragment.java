@@ -1,7 +1,6 @@
 package com.example.li.fragmenttabhosttest.Fragment;
 
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.R;
 
@@ -37,7 +39,9 @@ public class NewsFragment extends Fragment {
             rbTitleSociology, rbTitleApple;
     private ImageView ivCursor;
     private ViewPager viewPager;
-    private View view;
+    private View rootView;
+    private Toolbar toolbar;
+    private ImageView ivNewsToolBar;
 
     //    这个Adapter传入的FragmentManager要注意是getChildFragmentManager
 //    否则切换到其他页面再切换回来列表不显示数据
@@ -55,24 +59,58 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_news, container, false);
+        if (rootView != null) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) {
+                parent.removeView(rootView);
+            }
+            return rootView;
+        }
+        rootView = inflater.inflate(R.layout.fragment_news, container, false);
 
         initView();
 
-        return view;
+        return rootView;
 
     }
 
     private void initView() {
 
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbarNewsFragment);
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.main_menu_search:
+                        Toast.makeText(getContext(), getString(R.string.main_menu__search),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.main_menu_info:
+                        Toast.makeText(getContext(), getString(R.string.main_menu_info),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
+        ivNewsToolBar = (ImageView) rootView.findViewById(R.id.ivNewsToolBar);
+        ivNewsToolBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "返回顶部", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         initIvCursor();
 
-        rgTitle = (RadioGroup) view.findViewById(R.id.rgTitle);
-        rbTitleSports = (RadioButton) view.findViewById(R.id.rbTitleSport);
-        rbTitleApple = (RadioButton) view.findViewById(R.id.rbTitleApple);
-        rbTitleInternational = (RadioButton) view.findViewById(R.id.rbTitleInternational);
-        rbTitleSociology = (RadioButton) view.findViewById(R.id.rbTitleSociology);
-        rbTitleTechnology = (RadioButton) view.findViewById(R.id.rbTitleTechnology);
+        rgTitle = (RadioGroup) rootView.findViewById(R.id.rgTitle);
+        rbTitleSports = (RadioButton) rootView.findViewById(R.id.rbTitleSport);
+        rbTitleApple = (RadioButton) rootView.findViewById(R.id.rbTitleApple);
+        rbTitleInternational = (RadioButton) rootView.findViewById(R.id.rbTitleInternational);
+        rbTitleSociology = (RadioButton) rootView.findViewById(R.id.rbTitleSociology);
+        rbTitleTechnology = (RadioButton) rootView.findViewById(R.id.rbTitleTechnology);
 
         initViewPager();
 
@@ -106,7 +144,7 @@ public class NewsFragment extends Fragment {
      * 游标的初始设置
      */
     private void initIvCursor() {
-        ivCursor = (ImageView) view.findViewById(R.id.ivCursor);
+        ivCursor = (ImageView) rootView.findViewById(R.id.ivCursor);
         // 获取图片宽度
         lineWidth = BitmapFactory.decodeResource(getResources(),
                 R.drawable.cursor).getWidth();
@@ -126,7 +164,7 @@ public class NewsFragment extends Fragment {
      */
     private void initViewPager() {
 
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
 
         viewPagerAdapter = new NewsViewPagerAdapter(getChildFragmentManager());
 
@@ -194,13 +232,13 @@ public class NewsFragment extends Fragment {
                 case 0:
                     return new SportNewsFragment();
                 case 1:
-                    return new AppleNewsFragment();
+                    return new SportNewsFragment();
                 case 2:
-                    return new SociologyNewsFragment();
+                    return new SportNewsFragment();
                 case 3:
-                    return new TechnologyNewsFragment();
+                    return new SportNewsFragment();
                 case 4:
-                    return new InternationalNewsFragment();
+                    return new SportNewsFragment();
             }
             return null;
         }

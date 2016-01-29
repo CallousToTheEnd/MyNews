@@ -2,14 +2,23 @@ package com.example.li.fragmenttabhosttest.Activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.MenuCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPresenter;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.Bean.BottomTabBean;
 import com.example.li.fragmenttabhosttest.Fragment.NewsFragment;
@@ -28,13 +37,18 @@ public class MainActivity extends AppCompatActivity {
     private LayoutInflater mInflater;
     private List<BottomTabBean> tabList = new ArrayList<>(4);
 
+    Toolbar toolbar;
+
+    private boolean isMainFragment = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.inflateMenu(R.menu.menu_main);;
+//        setSupportActionBar(toolbar);
 
         initView();
     }

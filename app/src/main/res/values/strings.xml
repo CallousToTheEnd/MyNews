@@ -17,5 +17,8 @@
     <string name="topic_itemtype_healthy">健康</string>
     <string name="topic_itemtype_other">其它</string>
     <string name="topic_state_ongoing">进行中</string>
-    <string name="topic_state_end">结束</string>\
+    <string name="topic_state_end">结束</string>
+    <string name="main_menu__search">搜索</string>
+    <string name="main_menu_info">24小时要闻</string>
+    <string name="read_menu_add">添加订阅</string>\
 </resources>

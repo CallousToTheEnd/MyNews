@@ -21,27 +21,45 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnE
     private SurfaceHolder mSurfaceHoder;
     public MediaPlayer player;
 
-    public Player(Context mContext, SurfaceView mSurfaceView) {
+    public Player(Context mContext, SurfaceView surfaceView) {
         super();
         this.mContext = mContext;
-        this.mSurfaceView = mSurfaceView;
+        this.mSurfaceView = surfaceView;
         // 给SurfaceView添加CallBack监听
         mSurfaceHoder = mSurfaceView.getHolder();
         mSurfaceHoder.addCallback(this);
         // 为了可以播放视频或者使用Camera预览，我们需要指定其Buffer类型
         mSurfaceHoder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        player = new MediaPlayer();
-        player.setOnCompletionListener(this);
-        player.setOnErrorListener(this);
-        player.setOnInfoListener(this);
-        player.setOnPreparedListener(this);
-        player.setOnSeekCompleteListener(this);
-        player.setOnVideoSizeChangedListener(this);
+//        player = new MediaPlayer();
+//        player.setOnCompletionListener(this);
+//        player.setOnErrorListener(this);
+//        player.setOnInfoListener(this);
+//        player.setOnPreparedListener(this);
+//        player.setOnSeekCompleteListener(this);
+//        player.setOnVideoSizeChangedListener(this);
         // 然后指定需要播放文件的路径，初始化MediaPlayer
+//        String dataPath = Environment.getExternalStorageDirectory().getPath()
+//                + "/biz_guide_video.mp4";
+//        try {
+//            player.setDataSource(dataPath);
+//            Log.v("Next:::", "surfaceDestroyed called");
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//        } catch (IllegalStateException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void play() {
         String dataPath = Environment.getExternalStorageDirectory().getPath()
                 + "/biz_guide_video.mp4";
+        System.out.println(dataPath);
         try {
+            player.reset();
             player.setDataSource(dataPath);
+            player.prepareAsync();
             Log.v("Next:::", "surfaceDestroyed called");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -52,10 +70,6 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnE
         }
     }
 
-    public void play() {
-        player.start();
-    }
-
     public void pause() {
         player.pause();
     }
@@ -63,8 +77,8 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnE
     public void stop() {
         if (player != null) {
             player.stop();
-            player.release();
-            player = null;
+//            player.release();
+//            player = null;
         }
     }
 
@@ -83,7 +97,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnE
     @Override
     public void onPrepared(MediaPlayer mp) {
         // 当prepare完成后，该方法触发，在这里我们播放视频
-        //player.start();
+        player.start();
     }
 
     @Override
@@ -124,23 +138,31 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnE
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        System.out.println("surfaceCreated");
         // 当SurfaceView中的Surface被创建的时候被调用
         // 在这里我们指定MediaPlayer在当前的Surface中进行播放
+        player = new MediaPlayer();
+//        setDisplay只能在这里调用
         player.setDisplay(holder);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
+        player.setOnInfoListener(this);
+        player.setOnPreparedListener(this);
+        player.setOnSeekCompleteListener(this);
+        player.setOnVideoSizeChangedListener(this);
         // 在指定了MediaPlayer播放的容器后，我们就可以使用prepare或者prepareAsync来准备播放了
-        player.prepareAsync();
+//        player.prepareAsync();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
-        // TODO Auto-generated method stub
-
+        System.out.println("surfaceChanged");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // TODO Auto-generated method stub
+        System.out.println("surfaceDestroyed");
 
     }
 
