@@ -109,20 +109,25 @@ public class TopicFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private List<TopicFragmentItemBean> getTopics() {
         TopicFragmentItemBean topic1 = new TopicFragmentItemBean("贾子冰"
-                , R.drawable.test_readfragment, R.mipmap.ic_launcher
-                , "我是从事气象工作的贾子冰，关于BOSS寒潮、天气以及“解冻”时间的问题问我吧！", 1940, 1, 1);
+                , R.drawable.test_readfragment, R.drawable.topic_test_profile1
+                , "我是从事气象工作的贾子冰，关于BOSS寒潮、天气以及“解冻”时间的问题问我吧！",
+                1940, 1, 1);
         TopicFragmentItemBean topic2 = new TopicFragmentItemBean("宁嫁雨"
-                , R.drawable.test_readfragment, R.mipmap.ic_launcher
-                , "我是南开大学博士生导师宁嫁雨，关于魏晋风度、世说新语、传统文化与文学，问我吧！", 1646, 2, 1);
+                , R.drawable.topic_test_image2, R.drawable.topic_test_profile2
+                , "我是南开大学博士生导师宁嫁雨，关于魏晋风度、世说新语、传统文化与文学，问我吧！",
+                1646, 2, 1);
         TopicFragmentItemBean topic3 = new TopicFragmentItemBean("一本道"
-                , R.drawable.test_readfragment, R.mipmap.ic_launcher
-                , "我是不正经小百科，擅长一本正经的胡说八道，承接任何问题，问我吧！", 47000, 2, 1);
+                , R.drawable.topic_test_image3, R.drawable.topic_test_profile3
+                , "我是不正经小百科，擅长一本正经的胡说八道，承接任何问题，问我吧！",
+                47000, 2, 1);
         TopicFragmentItemBean topic4 = new TopicFragmentItemBean("宋清辉"
-                , R.drawable.test_readfragment, R.mipmap.ic_launcher
-                , "我是经济学家宋清辉，中央经济工作、楼市去库存，创业就业、新常态等问题，问我吧！", 7101, 3, 1);
+                , R.drawable.topic_test_image4, R.drawable.topic_test_profile4
+                , "我是经济学家宋清辉，中央经济工作、楼市去库存，创业就业、新常态等问题，问我吧！",
+                7101, 3, 1);
         TopicFragmentItemBean topic5 = new TopicFragmentItemBean("网易跟帖"
-                , R.drawable.test_readfragment, R.mipmap.ic_launcher
-                , "我是网易跟帖的小编，关于跟帖的一切问题，问我吧！", 6243, 5, 1);
+                , R.drawable.topic_test_image5, R.drawable.topic_test_profile5
+                , "我是网易跟帖的小编，关于跟帖的一切问题，问我吧！",
+                6243, 5, 1);
         topics.add(topic1);
         topics.add(topic2);
         topics.add(topic3);

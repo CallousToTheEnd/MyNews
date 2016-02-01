@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/biz_live_viewpager_bg">
+    android:background="#e8e8e8">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

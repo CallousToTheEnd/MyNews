@@ -89,8 +89,8 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
                 mvh.getTvType().setText(mContext.getString(R.string.topic_itemtype_other));
                 break;
         }
-        mvh.getIvBg().setImageResource(R.drawable.test_readfragment);
-        mvh.getIvHeadImage().setImageResource(R.mipmap.ic_launcher);
+        mvh.getIvBg().setImageResource(mTopics.get(position).getBgImage());
+        mvh.getIvHeadImage().setImageResource(mTopics.get(position).getHeadImage());
         mvh.getBtnInterest().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

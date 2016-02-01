@@ -1,12 +1,21 @@
 package com.example.li.fragmenttabhosttest.Adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +29,7 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/22.
  */
-public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final int IS_HEADER = 2;
     private static final int IS_NORMAL = 1;
@@ -29,12 +38,17 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
     private List<ReadFragmentItemBean> mReads = new ArrayList<>();
 
     private Context mContext;
+    private Activity mActivity;
 
     private OnRecyclerViewItemClickListener mItemClickListener = null;
 
-    public ReadFragmentRecyclerViewAdapter(List<ReadFragmentItemBean> mReads, Context mContext) {
+    //Unfun dialog 选择的选项
+    private List<CheckBox> checkBoxs = new ArrayList<>();
+
+    public ReadFragmentRecyclerViewAdapter(List<ReadFragmentItemBean> mReads, Context mContext, Activity activity) {
         this.mReads = mReads;
         this.mContext = mContext;
+        this.mActivity = activity;
     }
 
     @Override
@@ -47,6 +61,7 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
         mItemClickListener = listener;
     }
+
 
     public static interface OnRecyclerViewItemClickListener{
         void onItemClick(View v, int position);
@@ -86,7 +101,7 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
             myh.getBtnUnfun().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext,"Click", Toast.LENGTH_SHORT).show();
+                    showUnfunDialog(v);
                 }
             });
             myh.itemView.setTag(position - 1);
@@ -96,7 +111,7 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
 
     @Override
     public int getItemCount() {
-        return mReads.size();
+        return mReads.size() + 1;
     }
 
     @Override
@@ -105,6 +120,67 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
             return IS_HEADER;
         } else {
             return IS_NORMAL;
+        }
+    }
+
+    public void showUnfunDialog(View v) {
+        checkBoxs.clear();
+        int yyy;
+        int xy[] = new int[2];
+        final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+        //获取应用程序范围
+        Rect outRect = new Rect();
+        mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+        //状态栏的高度
+        yyy = outRect.top;
+        v.getLocationOnScreen(xy);
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window .setGravity( Gravity.TOP);
+        lp.y = xy[1] + v.getHeight() - yyy;
+        window.setAttributes(lp);
+        window.setContentView(R.layout.dialog_read_fragment);
+
+        CheckBox cbExplore = (CheckBox) window.findViewById(R.id.cbReadDialogExplore);
+        CheckBox cbTitleParty = (CheckBox) window.findViewById(R.id.cbReadDialogTitleParty);
+        CheckBox cbFalseNews = (CheckBox) window.findViewById(R.id.cbReadDialogFalseNews);
+        CheckBox cbContentRepetition = (CheckBox) window.findViewById(R.id.cbReadDialogContentRepetition);
+        CheckBox cbDada = (CheckBox) window.findViewById(R.id.cbReadDialogDada);
+        CheckBox cbYellowViolent = (CheckBox) window.findViewById(R.id.cbReadDialogYellowViolent);
+        CheckBox cbAnti_antisocial = (CheckBox) window.findViewById(R.id.cbReadDialogAnti_antisocial);
+        cbExplore.setOnCheckedChangeListener(this);
+        cbTitleParty.setOnCheckedChangeListener(this);
+        cbFalseNews.setOnCheckedChangeListener(this);
+        cbContentRepetition.setOnCheckedChangeListener(this);
+        cbDada.setOnCheckedChangeListener(this);
+        cbYellowViolent.setOnCheckedChangeListener(this);
+        cbAnti_antisocial.setOnCheckedChangeListener(this);
+        Button btnReadDialogOk = (Button) window.findViewById(R.id.btnReadDialogOk);
+        btnReadDialogOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ss = "";
+                if (checkBoxs.size()>0) {
+                    for (int i = 0; i<checkBoxs.size(); i++) {
+                        ss += checkBoxs.get(i).getText() + "\n";
+                    }
+                }
+                Toast.makeText(mContext, "你选择了:" + ss, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            checkBoxs.add((CheckBox) buttonView);
+        } else {
+            if (checkBoxs.contains(buttonView)) {
+                checkBoxs.remove(buttonView);
+            }
         }
     }
 

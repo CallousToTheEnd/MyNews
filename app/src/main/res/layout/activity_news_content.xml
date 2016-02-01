@@ -2,8 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbarNewsContentToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    app:theme="@style/AppTheme.AppBarOverlay">
 
+    <ImageView
+        android:id="@+id/ivNewsContentToolbarBack"
+        android:src="@drawable/base_action_bar_back_black"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content" />
+
+</android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,6 +66,7 @@
                 android:layout_marginTop="15dp"
                 android:lineSpacingExtra="15dp"
                 android:text="Content"
+                android:textSize="17dp"
                 android:textColor="@android:color/background_dark" />
         </LinearLayout>
 

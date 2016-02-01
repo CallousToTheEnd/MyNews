@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/biz_live_viewpager_bg"
+    android:background="#e8e8e8"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarPcFragment"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="#e51c23"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scaleType="fitXY"
-            android:src="@drawable/test_readfragment" />
+            android:background="#e51c23"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivPcHeadImage"

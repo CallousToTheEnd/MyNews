@@ -28,12 +28,17 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/26.
  */
-public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
+public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+
+    private static final int IS_HEADER = 2;
+    private static final int IS_NORMAL = 1;
 
     private List<VaFragmentItemBean> mVideos = new ArrayList<>();
     private Context mContext;
 
     private MyViewHolder viewHolder;
+
+    private OnRecyclerViewItemClickListener mItemClickListener = null;
 
     public VaFragmentRecyclerViewAdapter(List<VaFragmentItemBean> mVideos, Context mContext) {
         this.mVideos = mVideos;
@@ -41,10 +46,24 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
+    public void onClick(View v) {
+        mItemClickListener.onItemClick(v, (int)v.getTag());
+    }
+
+    public static interface OnRecyclerViewItemClickListener{
+        void onItemClick(View v, int position);
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
+        mItemClickListener = listener;
+    }
+
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.va_recyclerview_viewholder, parent, false);
         viewHolder = new MyViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -93,6 +112,7 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter {
                 Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
             }
         });
+        mvh.itemView.setTag(position);
     }
 
     @Override

@@ -1,12 +1,21 @@
 package com.example.li.fragmenttabhosttest.Activity;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.R;
 
@@ -20,7 +29,7 @@ import java.io.IOException;
 /**
  * Created by Mr.li on 2016/1/13.
  */
-public class NewsContentActivity extends AppCompatActivity {
+public class NewsContentActivity extends AppCompatActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
 
     private String title = "";
     private String time = "";
@@ -29,8 +38,14 @@ public class NewsContentActivity extends AppCompatActivity {
     private String content = "";
     private String source = "";
 
+    private int stateBar_height;
+    private int screen_width;
+
     private TextView tvNewsContentTitle, tvNewsContentSource, tvNewsContentTime,
             tvNewsContentContent;
+    private PopupWindow popupWindow;
+
+    private Toolbar toolbar;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -74,6 +89,17 @@ public class NewsContentActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) {
+            Rect rect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+            stateBar_height = rect.top;
+            screen_width = rect.right;
+        }
+        super.onWindowFocusChanged(hasFocus);
+    }
+
     private void getBundles() {
         this.title = getIntent().getStringExtra("title");
         this.time = getIntent().getStringExtra("time");
@@ -82,6 +108,10 @@ public class NewsContentActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        toolbar = (Toolbar) findViewById(R.id.toolbarNewsContentToolbar);
+        toolbar.inflateMenu(R.menu.menu_news_content);
+        toolbar.setOnMenuItemClickListener(this);
+        toolbar.findViewById(R.id.ivNewsContentToolbarBack).setOnClickListener(this);
         tvNewsContentTitle = (TextView) findViewById(R.id.tvNewsContentTitle);
         tvNewsContentSource = (TextView) findViewById(R.id.tvNewsContentSource);
         tvNewsContentTime = (TextView) findViewById(R.id.tvNewsContentTime);
@@ -97,4 +127,58 @@ public class NewsContentActivity extends AppCompatActivity {
         return source;
     }
 
+    private void initPopupWindow() {
+        View view = getLayoutInflater().inflate(R.layout.menu_news_content, null);
+        view.findViewById(R.id.llNewsContentMenuItemCollect).setOnClickListener(this);
+        view.findViewById(R.id.llNewsContentMenuItemScreenshot).setOnClickListener(this);
+        view.findViewById(R.id.llNewsContentMenuItemFont).setOnClickListener(this);
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(screen_width / 2);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(getResources()
+                .getDrawable(R.drawable.abc_popup_background_mtrl_mult));
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.update();
+
+    }
+
+    private void showpopupWindowMenu() {
+        initPopupWindow();
+        popupWindow.showAtLocation(tvNewsContentTitle,
+                Gravity.RIGHT | Gravity.TOP, 0,
+                stateBar_height);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.llNewsContentMenuItemCollect:
+                Toast.makeText(NewsContentActivity.this, "收藏", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+                break;
+            case R.id.llNewsContentMenuItemScreenshot:
+                Toast.makeText(NewsContentActivity.this, "截图", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+                break;
+            case R.id.llNewsContentMenuItemFont:
+                Toast.makeText(NewsContentActivity.this, "字号大小", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+                break;
+            case R.id.ivNewsContentToolbarBack:
+                NewsContentActivity.this.finish();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.newsContentMenuMore:
+                showpopupWindowMenu();
+                break;
+        }
+        return false;
+    }
 }

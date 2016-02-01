@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/biz_read_no_interest_popup_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cbReadDialogExplore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="探索"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+        <CheckBox
+            android:id="@+id/cbReadDialogTitleParty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="标题党"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+        <CheckBox
+            android:id="@+id/cbReadDialogFalseNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="虚假新闻"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cbReadDialogContentRepetition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="内容重复"
+            android:layout_marginLeft="10dp"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+        <CheckBox
+            android:id="@+id/cbReadDialogDada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="哒哒"
+            android:layout_marginLeft="10dp"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+        <CheckBox
+            android:id="@+id/cbReadDialogYellowViolent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="很黄很暴力"
+            android:layout_marginLeft="10dp"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cbReadDialogAnti_antisocial"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_read_dialog_tag"
+            android:button="@null"
+            android:text="反党反社会"
+            android:textColor="@drawable/selector_read_dialog_tag_textcolor" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnReadDialogOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:textColor="#808080"
+        android:background="#ffffff"/>
+
+</LinearLayout>

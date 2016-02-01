@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/biz_live_viewpager_bg"
+    android:background="#e8e8e8"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout

@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.Adapter.VaFragmentRecyclerViewAdapter;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016-01-07.
  */
-public class VaFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View rootView;
 //    private SurfaceView surfaceView;
@@ -43,7 +44,8 @@ public class VaFragment extends Fragment implements View.OnClickListener, SwipeR
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         if (rootView != null) {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
@@ -60,15 +62,19 @@ public class VaFragment extends Fragment implements View.OnClickListener, SwipeR
         refreshLayout = (SwipeRefreshLayout) rootView
                 .findViewById(R.id.swipeRefreshLayoutVaFragment);
         refreshLayout.setOnRefreshListener(this);
-        recyclerViewAdapter = new VaFragmentRecyclerViewAdapter(getVideos(),getContext());
+        recyclerViewAdapter = new VaFragmentRecyclerViewAdapter(getVideos(), getContext());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewVaFragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
-    }
-
-    @Override
-    public void onClick(View v) {
-
+        recyclerViewAdapter.setOnItemClickListener(new VaFragmentRecyclerViewAdapter
+                .OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                TextView tvv = (TextView) v.findViewById(R.id.tvVaRvViewHolderTitle);
+                Toast.makeText(getContext(), "title:" + tvv.getText() +
+                        "\n position:" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -79,11 +85,11 @@ public class VaFragment extends Fragment implements View.OnClickListener, SwipeR
 
     private List<VaFragmentItemBean> getVideos() {
         VaFragmentItemBean video1 = new VaFragmentItemBean("大柯基教小柯基如何坐下",
-        "萌化了",32,9437, 37);
+                "萌化了", 32, 9437, 37);
         VaFragmentItemBean video2 = new VaFragmentItemBean("荷兰青年街头向华人撒奶粉",
-                "疑不满华人抢购奶粉",120,11000, 558);
+                "疑不满华人抢购奶粉", 120, 11000, 558);
         VaFragmentItemBean video3 = new VaFragmentItemBean("笑死！爸爸喝多了个儿子做游戏",
-                "当爹的够萌",18,9143, 19);
+                "当爹的够萌", 18, 9143, 19);
         videos.add(video1);
         videos.add(video2);
         videos.add(video3);
