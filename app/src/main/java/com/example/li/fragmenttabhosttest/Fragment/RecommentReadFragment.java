@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.Adapter.ReadFragmentRecyclerViewAdapter;
 import com.example.li.fragmenttabhosttest.Bean.ReadFragmentItemBean;
 import com.example.li.fragmenttabhosttest.R;
+import com.example.li.fragmenttabhosttest.utils.AnimationControl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class RecommentReadFragment extends Fragment implements SwipeRefreshLayou
     private ReadFragmentRecyclerViewAdapter recyclerViewAdapter;
 
     private List<ReadFragmentItemBean> reads = new ArrayList<>();
+
 
     @Nullable
     @Override

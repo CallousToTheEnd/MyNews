@@ -1,5 +1,9 @@
 package com.example.li.fragmenttabhosttest.Activity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +17,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.li.fragmenttabhosttest.R;
+import com.example.li.fragmenttabhosttest.utils.AnimationControl;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,7 +45,7 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
     private String time = "";
     private String picUrl = "";
     private String url = "";
-    private String content = "";
+    private String content = "\u3000\u3000";
     private String source = "";
 
     private int stateBar_height;
@@ -43,6 +53,9 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
 
     private TextView tvNewsContentTitle, tvNewsContentSource, tvNewsContentTime,
             tvNewsContentContent;
+    private ImageView ivLoading;
+    private AnimationControl animationControl;
+
     private PopupWindow popupWindow;
 
     private Toolbar toolbar;
@@ -52,8 +65,9 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    tvNewsContentContent.setText(content);
-                    tvNewsContentSource.setText(source);
+                    setNewsContent();
+                    animationControl.cancelLoadingAnimation();
+                    break;
             }
         }
     };
@@ -65,28 +79,24 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
 
         getBundles();
         initView();
+        showLoadingAnimation();
+        loadNews();
+    }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Document doc = Jsoup.connect(url).get();
-//                    正文内容
-                    Elements newsContentElt = doc.getElementsByClass("para");
-                    for (Element e : newsContentElt) {
-                            content += e.text() + "\n\n" + "\u3000\u3000";
-                    }
-//                    来源
-                    Elements newsSourceElt = doc.getElementsByClass("ori");
-                    source = newsSourceElt.text();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler=null;
+        if(animationControl.getLoadingAnimator().isRunning()) {
+            animationControl.cancelLoadingAnimation();
+        }
+        animationControl = null;
+    }
 
-                    mHandler.sendEmptyMessage(1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.empty, R.anim.slide_toright);
     }
 
     @Override
@@ -98,6 +108,35 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
             screen_width = rect.right;
         }
         super.onWindowFocusChanged(hasFocus);
+    }
+
+    private void loadNews() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Document doc = Jsoup.connect(url).get();
+//                    正文内容
+                    Elements newsContentElt = doc.getElementsByClass("para");
+                    for (Element e : newsContentElt) {
+                        content += e.text() + "\n\n" + "\u3000\u3000";
+                    }
+//                    来源
+                    Elements newsSourceElt = doc.getElementsByClass("ori");
+                    source = newsSourceElt.text();
+
+                    mHandler.sendEmptyMessage(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void showLoadingAnimation() {
+        animationControl = new AnimationControl();
+        animationControl.initLoadingAnimation(ivLoading);
+        animationControl.showLoadingAnimation();
     }
 
     private void getBundles() {
@@ -116,17 +155,19 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
         tvNewsContentSource = (TextView) findViewById(R.id.tvNewsContentSource);
         tvNewsContentTime = (TextView) findViewById(R.id.tvNewsContentTime);
         tvNewsContentContent = (TextView) findViewById(R.id.tvNewsContentContent);
+        ivLoading = (ImageView) findViewById(R.id.ivNewsContentLoading);
+    }
 
+    private void setNewsContent() {
         tvNewsContentTitle.setText(title);
         tvNewsContentTime.setText(time);
-
-        content = "\u3000\u3000";
+        tvNewsContentContent.setText(content);
+        tvNewsContentSource.setText(source);
     }
 
-    private String judgeSource(String url) {
-        return source;
-    }
-
+    /**
+     * 更多菜单
+     */
     private void initPopupWindow() {
         View view = getLayoutInflater().inflate(R.layout.menu_news_content, null);
         view.findViewById(R.id.llNewsContentMenuItemCollect).setOnClickListener(this);

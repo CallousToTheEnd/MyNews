@@ -10,10 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/RecyclerViewNewsSport"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivNewsSportLoadImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/biz_news_detailpage_loading_large_icon"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerViewNewsSport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
 
 
     </android.support.v4.widget.SwipeRefreshLayout>

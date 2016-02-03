@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.example.li.fragmenttabhosttest.Bean.NewsContentBean;
 import com.example.li.fragmenttabhosttest.Bean.SportNewsSlideBean;
 import com.example.li.fragmenttabhosttest.custom.DividerItemDecoration;
 import com.example.li.fragmenttabhosttest.R;
+import com.example.li.fragmenttabhosttest.utils.AnimationControl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +47,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     //    private SliderLayout sliderShow;
     private View rootView;
+    private ImageView ivLoading;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -53,11 +56,14 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private List<SportNewsSlideBean> slide = new ArrayList<>();
     private List<NewsContentBean> news = new ArrayList<>();
 
+    private AnimationControl animationControl;
+
 
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             recyclerViewAdapter.notifyDataSetChanged();
+            animationControl.cancelLoadingAnimation();
         }
     };
 
@@ -78,10 +84,8 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
         }
         rootView = inflater.inflate(R.layout.fragment_news_sport, container, false);
 
-        initSwipeRefreshLayout();
-
-        initRecyclerView();
-
+        initView();
+        showLoadingAnimation();
 
         new Thread(new Runnable() {
             @Override
@@ -108,6 +112,17 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
         return rootView;
     }
 
+    private void showLoadingAnimation() {
+        animationControl = new AnimationControl();
+        animationControl.initLoadingAnimation(ivLoading);
+        animationControl.showLoadingAnimation();
+    }
+
+    private void initView() {
+        ivLoading = (ImageView) rootView.findViewById(R.id.ivNewsSportLoadImage);
+        initSwipeRefreshLayout();
+        initRecyclerView();
+    }
 
     /**
      * 初始化RecyclerView
@@ -138,6 +153,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
                 intent.putExtra("url", news.get(position).getUrl());
 
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_toleft, R.anim.empty);
             }
         });
 
@@ -218,15 +234,11 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onStop() {
-
         super.onStop();
     }
 
     @Override
     public void onRefresh() {
-
-        System.out.println("刷新");
-
         swipeRefreshLayout.setRefreshing(false);
 
     }
