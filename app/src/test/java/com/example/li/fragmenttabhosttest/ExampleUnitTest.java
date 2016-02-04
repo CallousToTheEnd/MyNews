@@ -1,4 +1,4 @@
-package com.example.li.fragmenttabhosttest;
+package com.mynews.li.mynews;
 
 import org.junit.Test;
 
