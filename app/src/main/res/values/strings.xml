@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">仿网易新闻</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
     <string name="tab_title_news">新闻</string>
     <string name="tab_title_read">阅读</string>
     <string name="tab_title_va">视听</string>
@@ -20,5 +20,27 @@
     <string name="topic_state_end">结束</string>
     <string name="main_menu__search">搜索</string>
     <string name="main_menu_info">24小时要闻</string>
-    <string name="read_menu_add">添加订阅</string>\
+    <string name="read_menu_add">添加订阅</string>
+    <string name="category_account">账号设置</string>
+    <string name="personal_setting">个人设置</string>
+    <string name="other_account">绑定其他平台</string>
+    <string name="category_application">系统设置</string>
+    <string name="column_plugin">栏目插件设置</string>
+    <string name="text_font">字体设置</string>
+    <string name="text_font_default">默认字体</string>
+    <string name="application_text_size">正文字号</string>
+    <string name="text_size_mid">中号字</string>
+    <string name="application_push">要闻推送</string>
+    <string name="personal_text">智能头条</string>
+    <string name="night_text">夜间模式</string>
+    <string name="application_offline">离线阅读</string>
+    <string name="no_picture">非WIFI网络不下载图片</string>
+    <string name="other_setting">其它设置</string>
+    <string name="check_updata">检查更新</string>
+    <string name="feed_back">帮助与反馈</string>
+    <string name="setting_recommand">应用推荐</string>
+    <string name="rating_guide">为网易新闻评分</string>
+    <string name="about">关于</string>
+    <string name="show_ad">封面故事</string>
+    <string name="clear_cache">手动清理缓存</string>\
 </resources>

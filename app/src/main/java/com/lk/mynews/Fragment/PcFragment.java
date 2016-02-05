@@ -1,5 +1,6 @@
 package com.lk.mynews.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lk.mynews.Activity.SettingActivity;
 import com.lk.mynews.Adapter.PcFragmentRecyclerViewAdapter;
 import com.lk.mynews.Bean.PcFragmentItemBean;
 import com.lk.mynews.R;
@@ -63,7 +65,9 @@ public class PcFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.pc_menu:
-                        Toast.makeText(getContext(), "设置", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), SettingActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_toleft, R.anim.empty);
                         break;
                 }
                 return false;

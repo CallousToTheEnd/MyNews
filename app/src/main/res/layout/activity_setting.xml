@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarPcFragment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#e51c23">
+
+        <ImageView
+            android:id="@+id/iv_setting_toolbar_back"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/base_action_bar_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_settings"
+            android:textColor="@android:color/primary_text_dark" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/tv_setting_category_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_account"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/tv_setting_personal_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/personal_setting"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_other_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/other_account"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:id="@+id/iv_setting_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/biz_pc_achievement_divider" />
+
+            <TextView
+                android:textSize="12dp"
+                android:id="@+id/tv_setting_category_application"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_application" />
+
+            <TextView
+                android:id="@+id/tv_setting_column_plugin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/column_plugin"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_font_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item">
+
+                <TextView
+                    android:id="@+id/tv_setting_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_font"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_setting_text_font_using"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/text_font_default"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_application_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/application_text_size"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_setting_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/text_size_mid"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_push_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_application_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/application_push"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_setting_push"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_setting_item_checkbox"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_personal_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_personal_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_text"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_setting_personal_switch"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_setting_item_checkbox"
+                    android:button="@null"
+                    android:checked="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_night_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_night_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/night_text"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_setting_night_switch"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_setting_item_checkbox"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_offline_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_application_offline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/application_offline"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_setting_offline"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_setting_item_checkbox"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_no_picture_zone"
+                android:layout_width="match_parent"
+                android:background="@drawable/selector_setting_activity_item"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_no_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_picture"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_setting_picture"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/selector_setting_item_checkbox"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_clear_cache_manually"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_cache"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_setting_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="0M"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_setting_line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/biz_pc_achievement_divider" />
+
+            <TextView
+                android:id="@+id/tv_setting_other_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other_setting"
+                android:textSize="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_setting_check_updata_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_setting_activity_item"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_setting_check_updata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/check_updata"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_setting_version_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="V1.0"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="15dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_setting_feed_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/feed_back"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_recommand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/setting_recommand"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_rating_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/rating_guide"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_show_ad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/show_ad"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/selector_setting_activity_item"
+                android:gravity="center_vertical"
+                android:text="@string/about"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
+
+

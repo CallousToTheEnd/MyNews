@@ -6,14 +6,14 @@ package com.lk.mynews.Bean;
 public class TopicFragmentItemBean {
 
     private String name;
-    private int bgImage;
-    private int headImage;
+    private String bgImage;
+    private String headImage;
     private String desc;
     private int interest;
     private int type;
     private int state;
 
-    public TopicFragmentItemBean(String name, int bgImage, int headImage, String desc, int interest, int type, int state) {
+    public TopicFragmentItemBean(String name, String bgImage, String headImage, String desc, int interest, int type, int state) {
         this.name = name;
         this.bgImage = bgImage;
         this.headImage = headImage;
@@ -31,19 +31,19 @@ public class TopicFragmentItemBean {
         this.name = name;
     }
 
-    public int getBgImage() {
+    public String getBgImage() {
         return bgImage;
     }
 
-    public void setBgImage(int bgImage) {
+    public void setBgImage(String bgImage) {
         this.bgImage = bgImage;
     }
 
-    public int getHeadImage() {
+    public String getHeadImage() {
         return headImage;
     }
 
-    public void setHeadImage(int headImage) {
+    public void setHeadImage(String headImage) {
         this.headImage = headImage;
     }
 

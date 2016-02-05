@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.lk.mynews.Bean.TopicFragmentItemBean;
 import com.lk.mynews.Config.Constant;
 import com.lk.mynews.Fragment.TopicFragment;
+import com.lk.mynews.MyApplication;
 import com.lk.mynews.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
     private List<TopicFragmentItemBean> mTopics = new ArrayList<>();
 
     private OnRecyclerViewItemClickListener mItemClickListener = null;
+
+    private ImageLoader imageLoader;
 
     public TopicFragmentRecyclerViewAdapter(Context mContext, List<TopicFragmentItemBean> mTopics) {
         this.mContext = mContext;
@@ -88,8 +92,8 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
                 mvh.getTvType().setText(mContext.getString(R.string.topic_itemtype_other));
                 break;
         }
-        mvh.getIvBg().setImageResource(mTopics.get(position).getBgImage());
-        mvh.getIvHeadImage().setImageResource(mTopics.get(position).getHeadImage());
+        imageLoader.getInstance().displayImage(mTopics.get(position).getBgImage(), mvh.getIvBg());
+        imageLoader.getInstance().displayImage(mTopics.get(position).getBgImage(), mvh.getIvHeadImage());
         mvh.getBtnInterest().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

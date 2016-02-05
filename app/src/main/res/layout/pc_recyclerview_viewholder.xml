@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:text="我的消息"
-        android:textColor="@android:color/primary_text_light"
+        android:textColor="@android:color/secondary_text_light"
         android:layout_marginLeft="20dp"/>
 
     <TextView

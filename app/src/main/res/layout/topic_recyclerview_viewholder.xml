@@ -14,8 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/ivTopicRvViewHolderBg"
@@ -60,7 +59,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:text="我是从事气象工作的贾子冰，关于BOSS寒潮、天气以及解冻时间的问题，问我吧！"
-                android:textColor="@android:color/primary_text_light"
+                android:textColor="@android:color/secondary_text_light"
                 android:textSize="17dp" />
 
             <TextView
