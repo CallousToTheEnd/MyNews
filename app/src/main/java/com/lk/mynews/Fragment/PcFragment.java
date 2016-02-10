@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.lk.mynews.Activity.SettingActivity;
 import com.lk.mynews.Adapter.PcFragmentRecyclerViewAdapter;
 import com.lk.mynews.Bean.PcFragmentItemBean;
+import com.lk.mynews.Config.Constant;
 import com.lk.mynews.R;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016-01-07.
  */
-public class PcFragment extends Fragment {
+public class PcFragment extends Fragment implements View.OnClickListener, PcFragmentRecyclerViewAdapter.OnRecyclerViewItemClickListener, Toolbar.OnMenuItemClickListener {
 
     private View rootView;
 
@@ -60,19 +61,7 @@ public class PcFragment extends Fragment {
     private void initView() {
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbarPcFragment);
         toolbar.inflateMenu(R.menu.menu_pc);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.pc_menu:
-                        Intent intent = new Intent(getActivity(), SettingActivity.class);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.slide_toleft, R.anim.empty);
-                        break;
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
         tvLogin = (TextView) rootView.findViewById(R.id.tvPcLogin);
         ivHeadImage = (ImageView) rootView.findViewById(R.id.ivPcHeadImage);
         llPcRead = (LinearLayout) rootView.findViewById(R.id.llPcRead);
@@ -80,86 +69,59 @@ public class PcFragment extends Fragment {
         llPcTie = (LinearLayout) rootView.findViewById(R.id.llPcTie);
         llPcGolden = (LinearLayout) rootView.findViewById(R.id.llPcGolden);
 
-        tvLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "立即登陆", Toast.LENGTH_SHORT).show();
-            }
-        });
-        ivHeadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "立即登陆", Toast.LENGTH_SHORT).show();
-            }
-        });
-        llPcRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "阅读", Toast.LENGTH_SHORT).show();
-            }
-        });
-        llPcFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "收藏", Toast.LENGTH_SHORT).show();
-            }
-        });
-        llPcTie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "跟帖", Toast.LENGTH_SHORT).show();
-            }
-        });
-        llPcGolden.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "金币", Toast.LENGTH_SHORT).show();
-            }
-        });
-        recyclerViewAdapter = new PcFragmentRecyclerViewAdapter(getItems(), getContext());
-        recyclerViewAdapter.setOnItemClickListener(new PcFragmentRecyclerViewAdapter
-                .OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                TextView tvFirname = (TextView) v.findViewById(R.id.tvPcRvViewHolderFirText);
-                Toast.makeText(getContext(), "position:" + position
-                        + "/nitem:" + tvFirname.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        tvLogin.setOnClickListener(this);
+        ivHeadImage.setOnClickListener(this);
+        llPcRead.setOnClickListener(this);
+        llPcFav.setOnClickListener(this);
+        llPcTie.setOnClickListener(this);
+        llPcGolden.setOnClickListener(this);
+        recyclerViewAdapter = new PcFragmentRecyclerViewAdapter(Constant.getPcItems(), getContext());
+        recyclerViewAdapter.setOnItemClickListener(this);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewPcFragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    private List<PcFragmentItemBean> getItems() {
-        PcFragmentItemBean item1 = new PcFragmentItemBean(R.drawable.biz_pc_main_message
-                , "我的消息", "");
-        PcFragmentItemBean item2 = new PcFragmentItemBean(R.drawable.biz_pc_main_goldmall
-                , "金币商城", "");
-        PcFragmentItemBean item3 = new PcFragmentItemBean(R.drawable.biz_pc_main_task
-                , "我的任务", "");
-        PcFragmentItemBean item4 = new PcFragmentItemBean(R.drawable.biz_pc_main_wallet
-                , "我的钱包", "");
-        PcFragmentItemBean item5 = new PcFragmentItemBean(R.drawable.biz_pc_main_offline
-                , "离线阅读", "");
-        PcFragmentItemBean item6 = new PcFragmentItemBean(R.drawable.biz_pc_main_promo
-                , "活动广场", "");
-        PcFragmentItemBean item7 = new PcFragmentItemBean(R.drawable.biz_pc_main_gamecenter
-                , "游戏中心", "网易游戏·年度大杂烩");
-        PcFragmentItemBean item8 = new PcFragmentItemBean(R.drawable.biz_pc_main_mail
-                , "我的邮箱", "");
-        PcFragmentItemBean item9 = new PcFragmentItemBean(R.drawable.biz_pc_main_invitefriends
-                , "邀请好友", "邀请好友送百兆流量");
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        items.add(item4);
-        items.add(item5);
-        items.add(item6);
-        items.add(item7);
-        items.add(item8);
-        items.add(item9);
-        return items;
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.tvPcLogin:
+                Toast.makeText(getContext(), "立即登陆", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ivPcHeadImage:
+                Toast.makeText(getContext(), "立即登陆", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.llPcRead:
+                Toast.makeText(getContext(), "阅读", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.llPcFav:
+                Toast.makeText(getContext(), "收藏", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.llPcTie:
+                Toast.makeText(getContext(), "跟帖", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.llPcGolden:
+                Toast.makeText(getContext(), "金币", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
+    @Override
+    public void onItemClick(View v, int position) {
+        TextView tvFirname = (TextView) v.findViewById(R.id.tvPcRvViewHolderFirText);
+        Toast.makeText(getContext(), "position:" + position
+                + "/nitem:" + tvFirname.getText(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.pc_menu:
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_toleft, R.anim.empty);
+                break;
+        }
+        return false;
+    }
 }

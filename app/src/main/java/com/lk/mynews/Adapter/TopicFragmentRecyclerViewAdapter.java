@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/23.
  */
-public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements
+public class TopicFragmentRecyclerViewAdapter extends BaseRecyclerViewAdapter implements
         View.OnClickListener{
 
     private MyViewHolder viewHolder;
@@ -34,17 +34,11 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
 
     private List<TopicFragmentItemBean> mTopics = new ArrayList<>();
 
-    private OnRecyclerViewItemClickListener mItemClickListener = null;
-
     private ImageLoader imageLoader;
 
     public TopicFragmentRecyclerViewAdapter(Context mContext, List<TopicFragmentItemBean> mTopics) {
         this.mContext = mContext;
         this.mTopics = mTopics;
-    }
-
-    public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View v, int position);
     }
 
     @Override
@@ -65,7 +59,7 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
             float interest = (float) (mTopics.get(position).getInterest() / 10000.0);
             mvh.getTvInterest().setText(interest + "万关注");
         } else {
-            mvh.getTvInterest().setText(mTopics.get(position).getInterest() + "关注");
+            mvh.getTvInterest().setText(String.valueOf(mTopics.get(position).getInterest()) + "关注");
         }
         switch (mTopics.get(position).getState()) {
             case TopicFragment.TOPIC_STATE_ONGOING:
@@ -116,11 +110,11 @@ public class TopicFragmentRecyclerViewAdapter extends RecyclerView.Adapter imple
 
     @Override
     public void onClick(View v) {
-        mItemClickListener.onItemClick(v, (int)v.getTag());
-    }
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-        mItemClickListener = listener;
+        if (getItemListener() != null) {
+            getItemListener().onItemClick(v, (int)v.getTag());
+        } else {
+            System.out.println("itemListener is null, you should call setOnItemClickListener");
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

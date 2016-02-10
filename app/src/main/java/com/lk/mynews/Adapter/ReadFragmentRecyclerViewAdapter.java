@@ -29,18 +29,13 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/22.
  */
-public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-
-    private static final int IS_HEADER = 2;
-    private static final int IS_NORMAL = 1;
+public class ReadFragmentRecyclerViewAdapter extends BaseRecyclerViewAdapter implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private MyViewHolder viewHolder;
     private List<ReadFragmentItemBean> mReads = new ArrayList<>();
 
     private Context mContext;
     private Activity mActivity;
-
-    private OnRecyclerViewItemClickListener mItemClickListener = null;
 
     //Unfun dialog 选择的选项
     private List<CheckBox> checkBoxs = new ArrayList<>();
@@ -56,18 +51,11 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
 
     @Override
     public void onClick(View v) {
-        if (mItemClickListener != null) {
-            mItemClickListener.onItemClick(v,(int)v.getTag());
+        if (getItemListener() != null) {
+            getItemListener().onItemClick(v,(int)v.getTag());
+        } else {
+            System.out.println("itemListener is null, you should call setOnItemClickListener");
         }
-    }
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
-        mItemClickListener = listener;
-    }
-
-
-    public static interface OnRecyclerViewItemClickListener{
-        void onItemClick(View v, int position);
     }
 
     @Override
@@ -98,7 +86,6 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
                 }
             });
         } else {
-//            myh.getImage().setImageResource(mReads.get(position - 1).getImage());
             imageLoader.getInstance().displayImage(mReads.get(position - 1).getImage(),
                     myh.getImage(), imageSize);
             myh.getTvDesc().setText(mReads.get(position - 1).getDesc());
@@ -117,15 +104,6 @@ public class ReadFragmentRecyclerViewAdapter extends RecyclerView.Adapter implem
     @Override
     public int getItemCount() {
         return mReads.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return IS_HEADER;
-        } else {
-            return IS_NORMAL;
-        }
     }
 
     public void showUnfunDialog(View v) {

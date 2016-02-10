@@ -21,13 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp">
 
-                <!--
-                <SurfaceView
-                    android:id="@+id/surfaceViewVaRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />  -->
-
-                <VideoView
+                <com.volokh.danylo.video_player_manager.ui.VideoPlayerView
                     android:id="@+id/vvVaRvViewHolder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

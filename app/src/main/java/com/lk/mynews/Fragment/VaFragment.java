@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.lk.mynews.Adapter.VaFragmentRecyclerViewAdapter;
 import com.lk.mynews.Bean.VaFragmentItemBean;
 import com.lk.mynews.R;
+import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
+import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +28,15 @@ import java.util.List;
 public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View rootView;
-//    private SurfaceView surfaceView;
-//    private Button btnPlay, btnPlayOrPause, btnClose;
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
 
     private VaFragmentRecyclerViewAdapter recyclerViewAdapter;
 
     private List<VaFragmentItemBean> videos = new ArrayList<>();
 
-//    private Player player;
 
     @Nullable
     @Override
@@ -60,9 +60,11 @@ public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
         refreshLayout.setOnRefreshListener(this);
         recyclerViewAdapter = new VaFragmentRecyclerViewAdapter(getVideos(), getContext());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewVaFragment);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerViewAdapter.setOnItemClickListener(new VaFragmentRecyclerViewAdapter
                 .OnRecyclerViewItemClickListener() {
             @Override
@@ -72,6 +74,7 @@ public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                         "\n position:" + position, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override

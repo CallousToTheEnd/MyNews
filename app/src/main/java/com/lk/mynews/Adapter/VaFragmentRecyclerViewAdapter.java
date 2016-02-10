@@ -1,9 +1,11 @@
 package com.lk.mynews.Adapter;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +18,13 @@ import android.widget.VideoView;
 
 import com.lk.mynews.Bean.VaFragmentItemBean;
 import com.lk.mynews.R;
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.video_player_manager.ui.MediaPlayerWrapper;
+import com.volokh.danylo.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
+import com.volokh.danylo.video_player_manager.ui.VideoPlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,34 +32,23 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/26.
  */
-public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener {
-
-    private static final int IS_HEADER = 2;
-    private static final int IS_NORMAL = 1;
+public class VaFragmentRecyclerViewAdapter extends BaseRecyclerViewAdapter implements View.OnClickListener {
 
     private List<VaFragmentItemBean> mVideos = new ArrayList<>();
     private Context mContext;
 
     private MyViewHolder viewHolder;
 
-    private OnRecyclerViewItemClickListener mItemClickListener = null;
+    VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+        @Override
+        public void onPlayerItemChanged(MetaData metaData) {
+
+        }
+    });
 
     public VaFragmentRecyclerViewAdapter(List<VaFragmentItemBean> mVideos, Context mContext) {
         this.mVideos = mVideos;
         this.mContext = mContext;
-    }
-
-    @Override
-    public void onClick(View v) {
-        mItemClickListener.onItemClick(v, (int)v.getTag());
-    }
-
-    public static interface OnRecyclerViewItemClickListener{
-        void onItemClick(View v, int position);
-    }
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
-        mItemClickListener = listener;
     }
 
     @Override
@@ -65,14 +63,52 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implemen
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final MyViewHolder mvh = (MyViewHolder) holder;
-        String dataPath = Environment.getExternalStorageDirectory().getPath()
-                + "/biz_guide_video.mp4";
-        mvh.getVvVideo().setVideoPath(dataPath);
+        final String dataPath = Environment.getExternalStorageDirectory().getPath()
+                + "/test.mp4";
+        mvh.getVvVideo().addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener() {
+
+            @Override
+            public void onVideoPreparedMainThread() {
+                mvh.getBtnListPlay().setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onVideoCompletionMainThread() {
+                mvh.getBtnListPlay().setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onVideoStoppedMainThread() {
+                mvh.getBtnListPlay().setVisibility(View.VISIBLE);
+            }
+        });
+        mvh.getVvVideo().setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                mVideoPlayerManager.stopAnyPlayback();
+                mvh.getBtnListPlay().setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+            }
+        });
         mvh.getBtnListPlay().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mvh.getVvVideo().start();
-                mvh.getVvVideo().setMediaController(new MediaController(mContext));
+               mVideoPlayerManager.playNewVideo(null, mvh.getVvVideo(), dataPath);
             }
         });
 
@@ -115,20 +151,27 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implemen
         return mVideos.size();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (getItemListener() != null) {
+            getItemListener().onItemClick(v,(int)v.getTag());
+        } else {
+            System.out.println("itemListener is null, you should call setOnItemClickListener");
+        }
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         private View rootView;
-        //        private SurfaceView surfaceView;
         private Button btnListPlay, btnClose;
         private CheckBox btnPlayOrPause;
         private TextView tvTitle, tvDesc, tvDuration, tvPlayCount, tvTie;
         private ImageView ivShare;
-        private VideoView vvVideo;
+        private VideoPlayerView vvVideo;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             this.rootView = itemView;
-//            this.surfaceView = (SurfaceView) rootView.findViewById(R.id.surfaceViewVaRv);
             this.btnListPlay = (Button) rootView.findViewById(R.id.btnVaRvViewHolderListPlay);
             this.btnPlayOrPause = (CheckBox) rootView.findViewById(R.id.btnVaRvViewHolderPlayOrPause);
             this.btnClose = (Button) rootView.findViewById(R.id.btnVaRvViewHolderClose);
@@ -138,12 +181,8 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implemen
             this.tvPlayCount = (TextView) rootView.findViewById(R.id.tvVaRvViewHolderPlayCount);
             this.tvTie = (TextView) rootView.findViewById(R.id.tvVaRvViewHolderTie);
             this.ivShare = (ImageView) rootView.findViewById(R.id.ivVaRvViewHolderShare);
-            this.vvVideo = (VideoView) rootView.findViewById(R.id.vvVaRvViewHolder);
+            this.vvVideo = (VideoPlayerView) rootView.findViewById(R.id.vvVaRvViewHolder);
         }
-
-//        public SurfaceView getSurfaceView() {
-//            return surfaceView;
-//        }
 
         public Button getBtnListPlay() {
             return btnListPlay;
@@ -181,7 +220,7 @@ public class VaFragmentRecyclerViewAdapter extends RecyclerView.Adapter implemen
             return ivShare;
         }
 
-        public VideoView getVvVideo() {
+        public VideoPlayerView getVvVideo() {
             return vvVideo;
         }
 

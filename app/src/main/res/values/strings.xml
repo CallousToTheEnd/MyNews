@@ -42,5 +42,13 @@
     <string name="rating_guide">为网易新闻评分</string>
     <string name="about">关于</string>
     <string name="show_ad">封面故事</string>
-    <string name="clear_cache">手动清理缓存</string>\
+    <string name="clear_cache">手动清理缓存</string>
+    <string name="main_message">我的消息</string>
+    <string name="main_goldmall">金币商城</string>
+    <string name="main_task">我的任务</string>
+    <string name="main_wallet">我的钱包</string>
+    <string name="main_promo">活动广场</string>
+    <string name="main_gamecenter">游戏中心</string>
+    <string name="main_mail">我的邮箱</string>
+    <string name="main_invitefriends">邀请好友</string>\
 </resources>

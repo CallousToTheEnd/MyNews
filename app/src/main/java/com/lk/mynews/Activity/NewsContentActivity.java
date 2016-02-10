@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  * Created by Mr.li on 2016/1/13.
  */
-public class NewsContentActivity extends AppCompatActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
+public class NewsContentActivity extends BaseActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
 
     private String title = "";
     private String time = "";
@@ -67,14 +67,8 @@ public class NewsContentActivity extends AppCompatActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        animationControl.cancelLoadingAnimation();
-        animationControl = null;
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.empty, R.anim.slide_toright);
+//        animationControl.cancelLoadingAnimation();
+//        animationControl = null;
     }
 
     private void getBundles() {

@@ -12,6 +12,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.lk.mynews.Bean.BottomTabBean;
+import com.lk.mynews.Config.Config;
 import com.lk.mynews.Config.Constant;
 import com.lk.mynews.Fragment.NewsFragment;
 import com.lk.mynews.Fragment.PcFragment;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Config.app_settings = getSharedPreferences("app_settings", 0);
         initView();
     }
 

@@ -45,20 +45,30 @@ public class NewsFragment extends Fragment {
 //    否则切换到其他页面再切换回来列表不显示数据
     private NewsViewPagerAdapter viewPagerAdapter;
 
+    //    viewpager当前选中的页数
     private int current_index = 0;
+    //    线的实际宽度
     private static int lineWidth;
     private static int offset;
+    //    从新闻页切换到其它页再切换回来时线的位置
+    private int padding = 0;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        System.out.println("onCreateView");
         if (rootView != null) {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
                 parent.removeView(rootView);
             }
+            initIvCursor();
             return rootView;
         }
         rootView = inflater.inflate(R.layout.fragment_news, container, false);
@@ -76,7 +86,7 @@ public class NewsFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.main_menu_search:
                         Toast.makeText(getContext(), getString(R.string.main_menu__search),
                                 Toast.LENGTH_SHORT).show();
@@ -96,7 +106,6 @@ public class NewsFragment extends Fragment {
                 Toast.makeText(getContext(), "返回顶部", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         initIvCursor();
 
@@ -151,7 +160,21 @@ public class NewsFragment extends Fragment {
         offset = (int) ((screenWidth / (float) 5 - lineWidth) / 2);
         matrix.postTranslate(offset, 0);
         // 设置初始位置
+        padding = current_index * screenWidth / 5;
+        ivCursor.setPadding(padding, 0, 0, 0);
         ivCursor.setImageMatrix(matrix);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroy");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.out.println("onDestroyView");
     }
 
     /**
@@ -178,7 +201,7 @@ public class NewsFragment extends Fragment {
             public void onPageSelected(int position) {
                 //游标的移动和标题颜色的改变
                 Animation animation = new TranslateAnimation(one
-                        * current_index, one * position, 0, 0);
+                        * current_index - padding, one * position - padding, 0, 0);
                 animation.setFillAfter(true);
                 animation.setDuration(300);
                 ivCursor.startAnimation(animation);

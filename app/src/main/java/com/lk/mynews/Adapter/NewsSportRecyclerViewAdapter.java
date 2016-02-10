@@ -26,11 +26,7 @@ import java.util.List;
  * <p/>
  * Created by Mr.li on 2016/1/11.
  */
-public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implements View.OnClickListener {
-
-
-    private static final int IS_HEADER = 2;
-    private static final int IS_NORMAL = 1;
+public class NewsSportRecyclerViewAdapter extends BaseRecyclerViewAdapter implements View.OnClickListener {
 
     private Context mContext;
 
@@ -38,8 +34,6 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     private List<NewsContentBean> mNewsList = new ArrayList<>();
     private List<SportNewsSlideBean> mSlideList = new ArrayList<>();
-
-    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     private ImageLoader imageLoader;
 
@@ -50,14 +44,6 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
         mContext = context;
         mSlideList = slideData;
     }
-
-    /**
-     * 自定义实现RecyclerView的Item点击事件接口
-     */
-    public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View v, int position);
-    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -133,29 +119,13 @@ public class NewsSportRecyclerViewAdapter extends RecyclerView.Adapter implement
 
     @Override
     public void onClick(View v) {
-        if (mOnItemClickListener != null) {
+        if (getItemListener() != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+            getItemListener().onItemClick(v, (int) v.getTag());
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return IS_HEADER;
-        } else {
-            return IS_NORMAL;
-        }
-    }
 
-    /**
-     * 为RecyclerView注册Item的点击事件
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-        this.mOnItemClickListener = listener;
-    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 

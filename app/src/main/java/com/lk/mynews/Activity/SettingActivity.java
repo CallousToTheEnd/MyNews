@@ -1,5 +1,6 @@
 package com.lk.mynews.Activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,18 +12,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lk.mynews.Config.Config;
 import com.lk.mynews.R;
 
 /**
  * Created by Mr.li on 2016/2/5.
  */
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ImageView iv_setting_toolbar_back;
     private TextView tv_other_account, tv_personal_setting, tv_column_plugin,
-                tv_feed_back, tv_recommand, tv_rating_guite, tv_show_ad, tv_about;
+            tv_feed_back, tv_recommand, tv_rating_guite, tv_show_ad, tv_about;
 
-    private RelativeLayout rl_setting_font_panel,rl_setting_text_size,rl_setting_push_zone,
+    private RelativeLayout rl_setting_font_panel, rl_setting_text_size, rl_setting_push_zone,
             rl_setting_personal_zone, rl_setting_night_zone, rl_setting_offline_zone,
             rl_setting_no_picture_zone, rl_setting_clear_cache,
             rl_setting_check_updata_zone;
@@ -34,6 +36,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
         initView();
     }
 
@@ -85,12 +88,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         cb_setting_night_switch.setOnCheckedChangeListener(this);
         cb_setting_offline.setOnCheckedChangeListener(this);
         cb_setting_picture.setOnCheckedChangeListener(this);
-    }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.empty, R.anim.slide_toright);
+        cb_setting_push.setChecked(Config.app_settings.getBoolean("cb_setting_push", false));
+        cb_setting_personal_switch.setChecked(Config.app_settings.getBoolean("cb_setting_personal_switch", true));
+        cb_setting_night_switch.setChecked(Config.app_settings.getBoolean("cb_setting_night_switch", false));
+        cb_setting_offline.setChecked(Config.app_settings.getBoolean("cb_setting_offline", false));
+        cb_setting_picture.setChecked(Config.app_settings.getBoolean("cb_setting_picture", false));
     }
 
     @Override
@@ -124,15 +127,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(SettingActivity.this, ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_setting_font_panel:
-                TextView t1 = (TextView)(v.findViewById(R.id.tv_setting_text_font));
+                TextView t1 = (TextView) (v.findViewById(R.id.tv_setting_text_font));
                 Toast.makeText(SettingActivity.this, t1.getText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_setting_text_size:
-                TextView t2 = (TextView)(v.findViewById(R.id.tv_setting_application_text_size));
+                TextView t2 = (TextView) (v.findViewById(R.id.tv_setting_application_text_size));
                 Toast.makeText(SettingActivity.this, t2.getText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_setting_push_zone:
-                CheckBox cb1= (CheckBox) v.findViewById(R.id.cb_setting_push);
+                CheckBox cb1 = (CheckBox) v.findViewById(R.id.cb_setting_push);
                 if (cb1.isChecked()) {
                     cb1.setChecked(false);
                 } else {
@@ -140,7 +143,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.rl_setting_personal_zone:
-                CheckBox cb2= (CheckBox) v.findViewById(R.id.cb_setting_personal_switch);
+                CheckBox cb2 = (CheckBox) v.findViewById(R.id.cb_setting_personal_switch);
                 if (cb2.isChecked()) {
                     cb2.setChecked(false);
                 } else {
@@ -172,11 +175,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.rl_setting_clear_cache:
-                TextView t8 = (TextView)(v.findViewById(R.id.tv_setting_clear_cache_manually));
+                TextView t8 = (TextView) (v.findViewById(R.id.tv_setting_clear_cache_manually));
                 Toast.makeText(SettingActivity.this, t8.getText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_setting_check_updata_zone:
-                TextView t9= (TextView)(v.findViewById(R.id.tv_setting_check_updata));
+                TextView t9 = (TextView) (v.findViewById(R.id.tv_setting_check_updata));
                 Toast.makeText(SettingActivity.this, t9.getText(), Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -221,5 +224,18 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences settings = getSharedPreferences("app_settings", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("cb_setting_push", cb_setting_push.isChecked());
+        editor.putBoolean("cb_setting_personal_switch", cb_setting_personal_switch.isChecked());
+        editor.putBoolean("cb_setting_night_switch", cb_setting_night_switch.isChecked());
+        editor.putBoolean("cb_setting_offline", cb_setting_offline.isChecked());
+        editor.putBoolean("cb_setting_picture", cb_setting_picture.isChecked());
+        editor.commit();
     }
 }

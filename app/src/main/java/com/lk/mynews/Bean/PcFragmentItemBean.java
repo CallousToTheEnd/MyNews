@@ -6,10 +6,10 @@ package com.lk.mynews.Bean;
 public class PcFragmentItemBean {
 
     private int image;
-    private String firText;
+    private int firText;
     private String secText;
 
-    public PcFragmentItemBean(int image, String firText, String secText) {
+    public PcFragmentItemBean(int image, int firText, String secText) {
         this.image = image;
         this.firText = firText;
         this.secText = secText;
@@ -23,11 +23,11 @@ public class PcFragmentItemBean {
         this.image = image;
     }
 
-    public String getFirText() {
+    public int getFirText() {
         return firText;
     }
 
-    public void setFirText(String firText) {
+    public void setFirText(int firText) {
         this.firText = firText;
     }
 

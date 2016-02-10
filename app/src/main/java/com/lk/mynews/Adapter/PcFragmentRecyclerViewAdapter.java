@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Mr.li on 2016/1/25.
  */
-public class PcFragmentRecyclerViewAdapter extends RecyclerView.Adapter
+public class PcFragmentRecyclerViewAdapter extends BaseRecyclerViewAdapter
         implements View.OnClickListener {
 
     private List<PcFragmentItemBean> mItems = new ArrayList<>();
@@ -26,8 +26,6 @@ public class PcFragmentRecyclerViewAdapter extends RecyclerView.Adapter
 
     private MyViewHolder viewHolder;
 
-    private OnRecyclerViewItemClickListener mItemListener = null;
-
     public PcFragmentRecyclerViewAdapter(List<PcFragmentItemBean> mItems, Context mContext) {
         this.mItems = mItems;
         this.mContext = mContext;
@@ -35,15 +33,11 @@ public class PcFragmentRecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onClick(View v) {
-        mItemListener.onItemClick(v, (int)v.getTag());
-    }
-
-    public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View v, int position);
-    }
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener){
-        mItemListener = listener;
+        if(getItemListener() != null) {
+            getItemListener().onItemClick(v, (int)v.getTag());
+        } else {
+            System.out.println("itemListener is null, you should call setOnItemClickListener");
+        }
     }
 
     @Override
