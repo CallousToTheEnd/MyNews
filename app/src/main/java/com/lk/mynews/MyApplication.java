@@ -2,6 +2,7 @@ package com.lk.mynews;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Handler;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -17,6 +18,12 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.io.IOException;
+
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.OkHttpClient;
+import okhttp3.internal.http.CacheStrategy;
 
 /**
  * Created by Mr.li on 2016/1/20.
@@ -24,6 +31,9 @@ import java.io.File;
 public class MyApplication extends Application {
 
     ImageLoader imageLoader;
+    public OkHttpClient okHttpClient = new OkHttpClient();
+    private String okHttpClientCacheName = "/okCache";
+    private long cacheSize = 10 * 1024 * 1024;
 
 
     @Override
@@ -31,6 +41,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         initImageLoader();
+        initOkHttpClient();
     }
 
     private void initImageLoader() {
@@ -72,6 +83,10 @@ public class MyApplication extends Application {
                 .handler(new Handler()) // default
                 .build();
         return options;
+    }
+
+    public void initOkHttpClient() {
+        okHttpClient = new OkHttpClient();
     }
 
 }

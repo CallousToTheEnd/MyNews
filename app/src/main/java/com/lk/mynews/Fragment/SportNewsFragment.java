@@ -1,6 +1,7 @@
 package com.lk.mynews.Fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,9 +22,12 @@ import com.lk.mynews.Activity.NewsContentActivity;
 import com.lk.mynews.Adapter.NewsSportRecyclerViewAdapter;
 import com.lk.mynews.Bean.NewsContentBean;
 import com.lk.mynews.Bean.SportNewsSlideBean;
+import com.lk.mynews.Config.Constant;
 import com.lk.mynews.custom.DividerItemDecoration;
 import com.lk.mynews.R;
 import com.lk.mynews.utils.AnimationControl;
+import com.lk.mynews.utils.GetNewsJsonFromUrlUtils;
+import com.lk.mynews.utils.ParseJsonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,17 +40,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 /**
  * 体育新闻界面
  * Created by Mr.li on 2016-01-08.
  */
 public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    //    private SliderLayout sliderShow;
     private View rootView;
     private ImageView ivLoading;
     private RecyclerView recyclerView;
@@ -58,10 +57,11 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private List<NewsContentBean> news = new ArrayList<>();
 
     private AnimationControl animationControl;
+    private GetNewsJsonFromUrlUtils getNewsJsonFromUrlUtils = new GetNewsJsonFromUrlUtils();
+    private ParseJsonUtils parseJsonUtils = new ParseJsonUtils();
 
-
-     private MyHandler mHandler;
-
+    private MyHandler mHandler;
+    private AsyncLoadNewsData asyncLoadNewsData= new AsyncLoadNewsData();
 
     @Nullable
     @Override
@@ -82,28 +82,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         initView();
         showLoadingAnimation();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-
-                    //加载slider信息
-                    loadSlider();
-                    //加载新闻信息
-                    loadNews();
-
-                    mHandler.sendEmptyMessage(1);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }).start();
-
+        loadNewsData();
 
         return rootView;
     }
@@ -165,83 +144,47 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     }
 
-    /**
-     * 加载Slider信息
-     */
-    private void loadSlider() throws IOException {
-
+    private void loadNewsData() {
         slide.clear();
-
-        Document doc = Jsoup.connect("http://sports.ifeng.com/").get();
-        Element slideElt = doc.getElementById("slide");
-        Elements slideNewsPicElts = slideElt.getElementsByClass("pic");
-        Elements slideNewsTxtElts = slideElt.getElementsByClass("txt");
-
-        for (int i = 0; i < slideNewsPicElts.size(); i++) {
-            String slidePicUrl = slideNewsPicElts.get(i).getElementsByTag("img").attr("src");
-            String slideLink = slideNewsPicElts.get(i).getElementsByTag("a").attr("href") + "#p=1";
-            String slideDesc = slideNewsTxtElts.get(i).text();
-            SportNewsSlideBean slideBean = new SportNewsSlideBean(slidePicUrl, slideLink, slideDesc);
-            slide.add(slideBean);
-        }
-
-    }
-
-    /**
-     * （apistore开放接口） 加载新闻，
-     */
-    private void loadNews() throws IOException {
-
-
-        String apiUrl = "http://apis.baidu.com/txapi/world/world?&num=11&page=1";
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(apiUrl)
-                .addHeader("apikey", "ef3ff76a03a6c1b2e24d3a75fed55658")
-                .build();
-
-        Response response = okHttpClient.newCall(request).execute();
-
-        if (response.isSuccessful()) {
-            String json = response.body().string();
-
-            if (!json.equals("")) {
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    System.out.println(jsonObject.toString());
-
-                    for (int i = 0; i < jsonObject.length() - 2; i++) {
-                        JSONObject jsonContent = jsonObject.getJSONObject(String.valueOf(i));
-                        news.add(new NewsContentBean(jsonContent.getString("title"),
-                                jsonContent.getString("picUrl"),
-                                jsonContent.getString("time"),
-                                jsonContent.getString("url")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Toast.makeText(getContext(),"数据出问题了", Toast.LENGTH_SHORT).show();
-            }
-
-        } else {
-            Toast.makeText(getContext(),"网络出问题了", Toast.LENGTH_SHORT).show();
-        }
-
+        news.clear();
+        asyncLoadNewsData.execute();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        if (!asyncLoadNewsData.isCancelled()) {
+            asyncLoadNewsData.cancel(true);
+        }
     }
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        loadNewsData();
+    }
+
+    class AsyncLoadNewsData extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            try {
+                slide.addAll(getNewsJsonFromUrlUtils.loadSlider());
+                news.addAll(parseJsonUtils.parseNewsContentJson(
+                        getNewsJsonFromUrlUtils.loadSportNews()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            mHandler.sendEmptyMessage(1);
+            swipeRefreshLayout.setRefreshing(false);
+            super.onPostExecute(o);
+        }
+
     }
 
     static class MyHandler extends Handler {

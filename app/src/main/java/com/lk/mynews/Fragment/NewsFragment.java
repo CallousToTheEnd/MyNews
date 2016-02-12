@@ -30,7 +30,7 @@ import com.lk.mynews.R;
  * 新闻页面
  * Created by Mr.li on 2016-01-07.
  */
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
 
     private RadioGroup rgTitle;
     private RadioButton rbTitleSports, rbTitleInternational, rbTitleTechnology,
@@ -39,7 +39,6 @@ public class NewsFragment extends Fragment {
     private ViewPager viewPager;
     private View rootView;
     private Toolbar toolbar;
-    private ImageView ivNewsToolBar;
 
     //    这个Adapter传入的FragmentManager要注意是getChildFragmentManager
 //    否则切换到其他页面再切换回来列表不显示数据
@@ -62,7 +61,6 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("onCreateView");
         if (rootView != null) {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
@@ -83,29 +81,9 @@ public class NewsFragment extends Fragment {
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbarNewsFragment);
         toolbar.inflateMenu(R.menu.menu_main);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.main_menu_search:
-                        Toast.makeText(getContext(), getString(R.string.main_menu__search),
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.main_menu_info:
-                        Toast.makeText(getContext(), getString(R.string.main_menu_info),
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                return false;
-            }
-        });
-        ivNewsToolBar = (ImageView) rootView.findViewById(R.id.ivNewsToolBar);
-        ivNewsToolBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "返回顶部", Toast.LENGTH_SHORT).show();
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
+        ImageView ivNewsToolBar = (ImageView) rootView.findViewById(R.id.ivNewsToolBar);
+        ivNewsToolBar.setOnClickListener(this);
 
         initIvCursor();
 
@@ -165,18 +143,6 @@ public class NewsFragment extends Fragment {
         ivCursor.setImageMatrix(matrix);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("onDestroy");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        System.out.println("onDestroyView");
-    }
-
     /**
      * 初始化ViewPager
      */
@@ -232,6 +198,30 @@ public class NewsFragment extends Fragment {
             }
 
         });
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_menu_search:
+                Toast.makeText(getContext(), getString(R.string.main_menu__search),
+                        Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_info:
+                Toast.makeText(getContext(), getString(R.string.main_menu_info),
+                        Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivNewsToolBar:
+                Toast.makeText(getContext(), "返回顶部", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     public class NewsViewPagerAdapter extends FragmentStatePagerAdapter {

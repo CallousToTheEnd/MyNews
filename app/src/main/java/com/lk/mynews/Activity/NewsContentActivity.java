@@ -1,10 +1,10 @@
 package com.lk.mynews.Activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -18,18 +18,15 @@ import android.widget.Toast;
 import com.lk.mynews.Config.Constant;
 import com.lk.mynews.R;
 import com.lk.mynews.utils.AnimationControl;
+import com.lk.mynews.utils.JsoupUtils;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 /**
  * Created by Mr.li on 2016/1/13.
  */
-public class NewsContentActivity extends BaseActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
+public class NewsContentActivity extends BaseActivity implements View.OnClickListener,
+        Toolbar.OnMenuItemClickListener {
 
     private String title = "";
     private String time = "";
@@ -44,12 +41,14 @@ public class NewsContentActivity extends BaseActivity implements View.OnClickLis
     private ImageView ivLoading;
 
     private AnimationControl animationControl;
+    private JsoupUtils jsoupUtils = new JsoupUtils();;
 
     private PopupWindow popupWindow;
 
     public Toolbar toolbar;
 
     private MyHandler mHandler;
+    private AsyncLoadContent asyncLoadContent = new AsyncLoadContent();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,8 +66,9 @@ public class NewsContentActivity extends BaseActivity implements View.OnClickLis
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-//        animationControl.cancelLoadingAnimation();
-//        animationControl = null;
+        if (!asyncLoadContent.isCancelled()) {
+            asyncLoadContent.cancel(true);
+        }
     }
 
     private void getBundles() {
@@ -97,26 +97,7 @@ public class NewsContentActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadNews() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Document doc = Jsoup.connect(url).get();
-//                    正文内容
-                    Elements newsContentElt = doc.getElementsByClass("para");
-                    for (Element e : newsContentElt) {
-                        content += e.text() + "\n\n" + "\u3000\u3000";
-                    }
-//                    来源
-                    Elements newsSourceElt = doc.getElementsByClass("ori");
-                    source = newsSourceElt.text();
-
-                    mHandler.sendEmptyMessage(1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        asyncLoadContent.execute(url);
     }
 
     private void setNewsContent() {
@@ -182,6 +163,24 @@ public class NewsContentActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
         return false;
+    }
+
+    class AsyncLoadContent extends AsyncTask{
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            String url = (String) params[0];
+            String[] sourceAndContent = jsoupUtils.parseSportNewsSourceAndContent(url);
+            content = sourceAndContent[0];
+            source = sourceAndContent[1];
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            mHandler.sendEmptyMessage(1);
+            super.onPostExecute(o);
+        }
     }
 
     static class MyHandler extends Handler {

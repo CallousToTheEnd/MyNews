@@ -20,7 +20,7 @@ import com.lk.mynews.R;
 /**
  * Created by Mr.li on 2016-01-07.
  */
-public class ReadFragment extends Fragment {
+public class ReadFragment extends Fragment implements Toolbar.OnMenuItemClickListener, RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
 
     private View rootView;
     private ViewPager viewPager;
@@ -49,57 +49,57 @@ public class ReadFragment extends Fragment {
     private void initView() {
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbarReadFragment);
         toolbar.inflateMenu(R.menu.menu_read);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.read_menu_add:
-                        Toast.makeText(getContext(), getString(R.string.read_menu_add), Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
         radioGroup = (RadioGroup) rootView.findViewById(R.id.rgReadToolbar);
         rbRecommendRead = (RadioButton) rootView.findViewById(R.id.rbReadToolbarRecommendRead);
         rbMyBook = (RadioButton) rootView.findViewById(R.id.rbReadToolbarMyBook);
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPagerReadFragment);
         viewPager.setAdapter(new MyViewPagerAdapter(getChildFragmentManager()));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        viewPager.addOnPageChangeListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
+    }
 
-            }
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.read_menu_add:
+                Toast.makeText(getContext(), getString(R.string.read_menu_add), Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        rbRecommendRead.setChecked(true);
-                        break;
-                    case 1:
-                        rbMyBook.setChecked(true);
-                        break;
-                }
-            }
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.rbReadToolbarRecommendRead:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.rbReadToolbarMyBook:
+                viewPager.setCurrentItem(1);
+                break;
+        }
+    }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-        });
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbReadToolbarRecommendRead:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.rbReadToolbarMyBook:
-                        viewPager.setCurrentItem(1);
-                        break;
-                }
-            }
-        });
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                rbRecommendRead.setChecked(true);
+                break;
+            case 1:
+                rbMyBook.setChecked(true);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     class MyViewPagerAdapter extends FragmentStatePagerAdapter {

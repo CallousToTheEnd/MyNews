@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.lk.mynews.Adapter.VaFragmentRecyclerViewAdapter;
 import com.lk.mynews.Bean.VaFragmentItemBean;
+import com.lk.mynews.Config.Constant;
 import com.lk.mynews.R;
 import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
 import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
@@ -58,7 +59,7 @@ public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
         refreshLayout = (SwipeRefreshLayout) rootView
                 .findViewById(R.id.swipeRefreshLayoutVaFragment);
         refreshLayout.setOnRefreshListener(this);
-        recyclerViewAdapter = new VaFragmentRecyclerViewAdapter(getVideos(), getContext());
+        recyclerViewAdapter = new VaFragmentRecyclerViewAdapter(Constant.getVideos(), getContext());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewVaFragment);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -81,19 +82,6 @@ public class VaFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
     public void onRefresh() {
         Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
         refreshLayout.setRefreshing(false);
-    }
-
-    private List<VaFragmentItemBean> getVideos() {
-        VaFragmentItemBean video1 = new VaFragmentItemBean("大柯基教小柯基如何坐下",
-                "萌化了", 32, 9437, 37);
-        VaFragmentItemBean video2 = new VaFragmentItemBean("荷兰青年街头向华人撒奶粉",
-                "疑不满华人抢购奶粉", 120, 11000, 558);
-        VaFragmentItemBean video3 = new VaFragmentItemBean("笑死！爸爸喝多了个儿子做游戏",
-                "当爹的够萌", 18, 9143, 19);
-        videos.add(video1);
-        videos.add(video2);
-        videos.add(video3);
-        return videos;
     }
 
 }
