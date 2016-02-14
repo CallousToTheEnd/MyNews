@@ -62,12 +62,12 @@ public class ReadFragmentRecyclerViewAdapter extends BaseRecyclerViewAdapter imp
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == IS_HEADER) {
             View view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.read_recyclerview_header,parent, false);
+                    .inflate(R.layout.read_item_header,parent, false);
             viewHolder = new MyViewHolder(view, viewType);
             return viewHolder;
         } else {
             View view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.read_recyclerview_viewholder,parent,false);
+                    .inflate(R.layout.read_item,parent,false);
             viewHolder = new MyViewHolder(view,viewType);
             view.setOnClickListener(this);
             return viewHolder;

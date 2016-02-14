@@ -171,7 +171,7 @@ public class NewsContentActivity extends BaseActivity implements View.OnClickLis
         protected Object doInBackground(Object[] params) {
             String url = (String) params[0];
             String[] sourceAndContent = jsoupUtils.parseSportNewsSourceAndContent(url);
-            content = sourceAndContent[0];
+            content += sourceAndContent[0];
             source = sourceAndContent[1];
             return null;
         }

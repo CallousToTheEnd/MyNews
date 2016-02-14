@@ -55,7 +55,7 @@
             android:background="#f0f0f0"
             android:button="@null"
             android:gravity="center"
-            android:text="@string/title_apple"
+            android:text="@string/title_military"
             android:textColor="@drawable/selector_title"
             android:textSize="17dp" />
 

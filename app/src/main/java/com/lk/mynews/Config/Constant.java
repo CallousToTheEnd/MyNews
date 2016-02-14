@@ -34,7 +34,15 @@ public class Constant {
     public static final String BAIDU_API_URL = "http://apis.baidu.com/txapi/world/world?&num=11&page=1";
     public static final String BAIDU_API_HEADER = "apikey";
 
+    public static final String SHOWAPI_API_URL = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
+    public static final String SHOWAPI_API_CHANNALID_SOCIOLOGY = "5572a109b3cdc86cf39001da";
+    public static final String SHOWAPI_API_CHANNALID_TECHNOLOGY = "5572a108b3cdc86cf39001d9";
+    public static final String SHOWAPI_API_CHANNALID_INTERNATIONAL = "5572a108b3cdc86cf39001ce";
+    public static final String SHOWAPI_API_CHANNALID_MILITARY = "5572a109b3cdc86cf39001df";
+
+
     public static final String SPORTS_IFENG_URL = "http://sports.ifeng.com/";
+
 
     private static List<PcFragmentItemBean> pcItems = new ArrayList<>();
     private static List<ReadFragmentItemBean> readItems = new ArrayList<>();

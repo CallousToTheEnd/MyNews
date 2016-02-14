@@ -5,20 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarNewsContentToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        app:theme="@style/AppTheme.AppBarOverlay">
-
-        <ImageView
-            android:id="@+id/ivNewsContentToolbarBack"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/base_action_bar_back_black" />
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar_news_content"/>
 
 <FrameLayout
     android:layout_width="match_parent"

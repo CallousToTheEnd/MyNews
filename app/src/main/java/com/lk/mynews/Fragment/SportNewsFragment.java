@@ -27,6 +27,7 @@ import com.lk.mynews.custom.DividerItemDecoration;
 import com.lk.mynews.R;
 import com.lk.mynews.utils.AnimationControl;
 import com.lk.mynews.utils.GetNewsJsonFromUrlUtils;
+import com.lk.mynews.utils.JsoupUtils;
 import com.lk.mynews.utils.ParseJsonUtils;
 
 import org.json.JSONException;
@@ -61,7 +62,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private ParseJsonUtils parseJsonUtils = new ParseJsonUtils();
 
     private MyHandler mHandler;
-    private AsyncLoadNewsData asyncLoadNewsData= new AsyncLoadNewsData();
+    private AsyncLoadNewsData asyncLoadNewsData;
 
     @Nullable
     @Override
@@ -147,6 +148,7 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private void loadNewsData() {
         slide.clear();
         news.clear();
+        asyncLoadNewsData = new AsyncLoadNewsData();
         asyncLoadNewsData.execute();
     }
 
@@ -169,7 +171,8 @@ public class SportNewsFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected Object doInBackground(Object[] params) {
             try {
-                slide.addAll(getNewsJsonFromUrlUtils.loadSlider());
+                JsoupUtils jsoupUtils = new JsoupUtils();
+                slide.addAll(jsoupUtils.parseSlider(getNewsJsonFromUrlUtils.loadSlider()));
                 news.addAll(parseJsonUtils.parseNewsContentJson(
                         getNewsJsonFromUrlUtils.loadSportNews()));
             } catch (IOException e) {

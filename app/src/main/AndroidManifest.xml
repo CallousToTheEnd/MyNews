@@ -35,6 +35,13 @@
                 android:value="com.lk.mynews.Activity.MainActivity" />
         </activity>
         <activity
+            android:name="com.lk.mynews.Activity.NewsWebActivity"
+            android:label="@string/app_name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lk.mynews.Activity.MainActivity" />
+        </activity>
+        <activity
             android:name="com.lk.mynews.Activity.SettingActivity">
         </activity>
     </application>

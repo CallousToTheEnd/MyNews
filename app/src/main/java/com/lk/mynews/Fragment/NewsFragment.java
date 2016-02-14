@@ -240,13 +240,29 @@ public class NewsFragment extends Fragment implements Toolbar.OnMenuItemClickLis
                 case 0:
                     return new SportNewsFragment();
                 case 1:
-                    return new SportNewsFragment();
+                    NewsListFragment militaryNewsFragment = new NewsListFragment();
+                    Bundle militaryBundle = new Bundle();
+                    militaryBundle.putString("newsType", Constant.SHOWAPI_API_CHANNALID_MILITARY);
+                    militaryNewsFragment.setArguments(militaryBundle);
+                    return militaryNewsFragment;
                 case 2:
-                    return new SportNewsFragment();
+                    NewsListFragment sociologyNewsFragment = new NewsListFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("newsType", Constant.SHOWAPI_API_CHANNALID_SOCIOLOGY);
+                    sociologyNewsFragment.setArguments(bundle);
+                    return sociologyNewsFragment;
                 case 3:
-                    return new SportNewsFragment();
+                    NewsListFragment technologyNewsFragment = new NewsListFragment();
+                    Bundle technologyBundle = new Bundle();
+                    technologyBundle.putString("newsType", Constant.SHOWAPI_API_CHANNALID_TECHNOLOGY);
+                    technologyNewsFragment.setArguments(technologyBundle);
+                    return technologyNewsFragment;
                 case 4:
-                    return new SportNewsFragment();
+                    NewsListFragment internationalNewsFragment = new NewsListFragment();
+                    Bundle internationalBundle = new Bundle();
+                    internationalBundle.putString("newsType", Constant.SHOWAPI_API_CHANNALID_INTERNATIONAL);
+                    internationalNewsFragment.setArguments(internationalBundle);
+                    return internationalNewsFragment;
             }
             return null;
         }

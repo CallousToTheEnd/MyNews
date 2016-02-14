@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -24,21 +25,23 @@ import okhttp3.Response;
  */
 public class GetNewsJsonFromUrlUtils {
 
-    public List<SportNewsSlideBean> loadSlider() throws IOException {
+    /**
+     * 获得凤凰体育首页的网页源码
+     * @return  凤凰体育网页源码
+     * @throws IOException
+     */
+    public String loadSlider() throws IOException {
         List<SportNewsSlideBean> slide = new ArrayList<>();
-        Document doc = Jsoup.connect(Constant.SPORTS_IFENG_URL).get();
-        Element slideElt = doc.getElementById("slide");
-        Elements slideNewsPicElts = slideElt.getElementsByClass("pic");
-        Elements slideNewsTxtElts = slideElt.getElementsByClass("txt");
-        int sliderSize = slideNewsPicElts.size();
-        for (int i = 0; i < sliderSize; i++) {
-            String slidePicUrl = slideNewsPicElts.get(i).getElementsByTag("img").attr("src");
-            String slideLink = slideNewsPicElts.get(i).getElementsByTag("a").attr("href") + "#p=1";
-            String slideDesc = slideNewsTxtElts.get(i).text();
-            SportNewsSlideBean slideBean = new SportNewsSlideBean(slidePicUrl, slideLink, slideDesc);
-            slide.add(slideBean);
+        Request request = new Request.Builder()
+                .url(Constant.SPORTS_IFENG_URL)
+                .build();
+
+        Response response = Config.myApplication.okHttpClient.newCall(request).execute();
+        if (response.isSuccessful()) {
+            String json = response.body().string();
+            return json;
         }
-        return slide;
+        return null;
     }
 
     public String loadSportNews() throws IOException {
@@ -53,6 +56,27 @@ public class GetNewsJsonFromUrlUtils {
             String json = response.body().string();
             return json;
         }
+        return null;
+    }
+
+    /**
+     * 获取Json数据
+     * @param channelId 频道名称，showapi可查询
+     * @return
+     * @throws IOException
+     */
+    public  String LoadNewsListJson(String channelId) throws IOException {
+        String url = Constant.SHOWAPI_API_URL + "?channelId=" + channelId;
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader(Constant.BAIDU_API_HEADER, Constant.BAIDU_API_KEY)
+                .build();
+        Response response = Config.myApplication.okHttpClient.newCall(request).execute();
+        if (response.isSuccessful()) {
+            String json = response.body().string();
+            return json;
+        }
+
         return null;
     }
 

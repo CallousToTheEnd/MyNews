@@ -1,6 +1,9 @@
 package com.lk.mynews.utils;
 
+import com.google.gson.Gson;
 import com.lk.mynews.Bean.NewsContentBean;
+import com.lk.mynews.Bean.SociologyJsonBean.Contentlist;
+import com.lk.mynews.Bean.SociologyJsonBean.SociologyJsonBean;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,16 @@ public class ParseJsonUtils {
             }
         }
         return news;
+    }
+
+    public List<Contentlist> parseSociologyJson(String json) {
+        Gson gson = new Gson();
+        SociologyJsonBean sociologyJsonBean = gson.fromJson(json, SociologyJsonBean.class);
+        List<Contentlist> contentlists = sociologyJsonBean
+                .getShowapi_res_body()
+                .getPagebean()
+                .getContentlist();
+        return contentlists;
     }
 
 }

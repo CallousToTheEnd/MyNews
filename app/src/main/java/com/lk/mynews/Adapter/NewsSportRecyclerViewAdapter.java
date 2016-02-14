@@ -51,14 +51,14 @@ public class NewsSportRecyclerViewAdapter extends BaseRecyclerViewAdapter implem
         //因为要在第一个位置上放一个SliderLayout，所以对不同的flag创建不同的Holder，这里的flag是重写getItemViewType方法中返回的数值
         if (viewType == IS_NORMAL) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.sport_news_recyclerview_viewhodler, parent, false);
+                    .inflate(R.layout.sport_news_item_layout, parent, false);
             mViewHolder = new MyViewHolder(view, IS_NORMAL);
             //将创建的View注册点击事件
             view.setOnClickListener(this);
             return mViewHolder;
         } else {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.sport_news_sliderview, parent, false);
+                    .inflate(R.layout.news_item_header, parent, false);
             mViewHolder = new MyViewHolder(view, IS_HEADER);
             return mViewHolder;
         }
